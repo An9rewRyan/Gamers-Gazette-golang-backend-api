@@ -15,8 +15,8 @@
 ***
 
 **Other projects using this web platform:**
- - **[Golang game news_parser](https://github.com/An9rewRyan/golang_game_news_parser)** 
- - **[Golang game prices_parser](https://github.com/An9rewRyan/golang_games_prices_parser)** 
+ - **[Golang game news parser](https://github.com/An9rewRyan/golang_game_news_parser)** 
+ - **[Golang game prices parser](https://github.com/An9rewRyan/golang_games_prices_parser)** 
 
 ---
 
