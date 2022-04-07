@@ -13,11 +13,6 @@
  3. Run: air 
 
 ***
-**What is used for what:**
- - **Go** - the basis of the parser, sends requests, searches for data *(+ htmlquery)*
- - **Js** - handles javascript on found pages if necessary *(+ puppetteer)*
-
-***
 
 **Other projects using this web platform:**
  - **[Golang game news_parser](https://github.com/An9rewRyan/golang_game_news_parser)** 
