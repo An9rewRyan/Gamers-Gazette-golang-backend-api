@@ -20,18 +20,23 @@
 package utils
 
 import (
+	"context"
+	"d/go/config"
+	"d/go/errors"
 	"fmt"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 // DB, err := gorm.Open(postgres.Open(Db_conn_str), &gorm.Config{})
 
-func Set_db(Db_conn_str string) *gorm.DB {
-	DB, err := gorm.Open(postgres.Open(Db_conn_str), &gorm.Config{})
+func Set_db() (*pgxpool.Pool, error) {
+	dbpool, err := pgxpool.Connect(context.Background(), config.Db_conn_str)
 	if err != nil {
 		fmt.Println("failed to connect database")
+		err = errors.New_db_connection_error("failed to connect database")
+	} else {
+		fmt.Println("Db connected sucessfully")
 	}
-	return DB
+	return dbpool, err
 }

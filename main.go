@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	utils.Set_db(Db_conn_str)
+	utils.Set_db()
 	mux := http.NewServeMux()
 	fmt.Println("Server is listening...")
 	server := http.Server{
