@@ -8,7 +8,12 @@ import (
 
 func main() {
 	utils.Set_db(Db_conn_str)
-	Set_urls()
+	mux := http.NewServeMux()
 	fmt.Println("Server is listening...")
-	http.ListenAndServe(":8000", nil)
+	server := http.Server{
+		Addr:    ":8000",
+		Handler: mux,
+	}
+	Set_urls(mux)
+	server.ListenAndServe()
 }

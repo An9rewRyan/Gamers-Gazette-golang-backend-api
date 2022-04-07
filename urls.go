@@ -5,12 +5,17 @@ import (
 	"net/http"
 )
 
-func Set_urls() {
-	http.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {
+func Set_urls(mux *http.ServeMux) {
+	mux.HandleFunc("/about/", func(w http.ResponseWriter, r *http.Request) {
 		views.About(w, r)
 	})
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		views.Home(w, r)
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			http.NotFound(w, r)
+			return
+		} else {
+			views.Home(w, r)
+		}
 	})
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 }
