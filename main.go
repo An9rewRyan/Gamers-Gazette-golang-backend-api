@@ -1,19 +1,23 @@
 package main
 
 import (
-	"d/go/utils"
 	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	utils.Set_db()
-	mux := http.NewServeMux()
+	// utils.Set_db()
+	// utils.Create_articles_table()
+	// utils.Create_recently_loaded_articles_table()
+	router := mux.NewRouter()
 	fmt.Println("Server is listening...")
 	server := http.Server{
 		Addr:    ":8000",
-		Handler: mux,
+		Handler: router,
 	}
-	Set_urls(mux)
+	Set_urls(router)
+	// database.Create_test_articles()
 	server.ListenAndServe()
 }

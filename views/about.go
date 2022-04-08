@@ -1,7 +1,7 @@
 package views
 
 import (
-	"d/go/utils"
+	"d/go/utils/html"
 	"net/http"
 )
 
@@ -11,5 +11,5 @@ func About(w http.ResponseWriter, r *http.Request) {
 		"Title":   "World Cup",
 		"Message": "FIFA will never regret it",
 	}
-	utils.Render(w, r, data, "about.html")
+	html.Render(w, r, data, "about.html")
 }
