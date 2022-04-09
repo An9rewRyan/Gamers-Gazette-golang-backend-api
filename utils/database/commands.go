@@ -21,3 +21,5 @@ const Select_all_new_articles_command = `select * from recently_loaded_articles;
 
 const Select_article_command = "select * from articles where article_id = $1"
 const Delete_article_command = "delete from articles where article_id = $1"
+
+const Update_article_command = "update articles set "

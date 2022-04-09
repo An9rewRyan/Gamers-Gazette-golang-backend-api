@@ -24,6 +24,9 @@ func Set_urls(mux *mux.Router) {
 	mux.HandleFunc("/api/articles/create", func(w http.ResponseWriter, r *http.Request) {
 		api.ApiArticleCreate(w, r)
 	})
+	mux.HandleFunc("/api/articles/{id}/update", func(w http.ResponseWriter, r *http.Request) {
+		api.ApiArticleUpdate(w, r)
+	})
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)

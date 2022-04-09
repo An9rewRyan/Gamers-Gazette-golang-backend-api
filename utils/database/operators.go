@@ -129,7 +129,7 @@ func Delete_article(id string) (structs.Article_select, error) {
 	var a structs.Article_select
 	if err != nil {
 		fmt.Println(err)
-		return a, errors.Get_api_article_error("No article with such id found!")
+		return a, errors.New_db_connection_error("Failed to connect to db")
 	}
 
 	row := Db.QueryRow(context.Background(), Delete_article_command, id)
@@ -155,4 +155,38 @@ func Create_test_articles() {
 		}
 		Write_article_to_db(article)
 	}
+}
+
+// const Update_article_command = "update articles set title = $1, content = $2, pub_date = $3, image_url = $5, src_link = $6, site_alias = $7"
+func Update_article(id string, article structs.Article_create) error {
+	Db, err := Connect_db()
+	if err != nil {
+		fmt.Println(err)
+		return errors.New_db_connection_error("Failed to connect to db")
+	}
+	command := Update_article_command
+	if article.Title != "" {
+		command += fmt.Sprintf("title = '%s', ", article.Title)
+	}
+	if article.Content != "" {
+		command += fmt.Sprintf("content = '%s', ", article.Content)
+	}
+	if article.Pub_date != "" {
+		command += fmt.Sprintf("pub_date = '%s', ", article.Pub_date)
+	}
+	if article.Site_alias != "" {
+		command += fmt.Sprintf("site_alias = '%s', ", article.Site_alias)
+	}
+	if article.Src_link != "" {
+		command += fmt.Sprintf("src_link = '%s', ", article.Src_link)
+	}
+	if article.Image_url != "" {
+		command += fmt.Sprintf("image_url = '%s', ", article.Src_link)
+	}
+	command = command[0 : len(command)-2]
+	command += fmt.Sprintf(" where article_id = %s;", id)
+	fmt.Println(command)
+	Db.QueryRow(context.Background(), command)
+
+	return err
 }
