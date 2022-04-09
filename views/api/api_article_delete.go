@@ -24,12 +24,16 @@ func ApiArticleDelete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	data := map[string]string{
-		"Articles": "Deleted article: " + string(b),
-	}
+	// data := map[string]string{
+	// 	"Articles": "Deleted article: " + string(b),
+	// }
 	_, err = database.Delete_article(vars["id"])
 	if err != nil {
 		fmt.Println(err)
 	}
-	html.Render(w, r, data, "api.html")
+	// data := map[string]string{
+	// 	"Articles": "Created article: " + string(b),
+	// }
+	fmt.Fprint(w, string(b))
+	// html.Render(w, r, data, "api.html")
 }

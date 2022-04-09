@@ -24,8 +24,9 @@ func ApiArticleGet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	data := map[string]string{
-		"Articles": string(b),
-	}
-	html.Render(w, r, data, "api.html")
+	// data := map[string]string{
+	// 	"Articles": "Created article: " + string(b),
+	// }
+	fmt.Fprint(w, string(b))
+	// html.Render(w, r, data, "api.html")
 }
