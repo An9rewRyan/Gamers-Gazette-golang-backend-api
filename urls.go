@@ -27,6 +27,21 @@ func Set_urls(mux *mux.Router) {
 	mux.HandleFunc("/api/articles/{id}/update", func(w http.ResponseWriter, r *http.Request) {
 		api.ApiArticleUpdate(w, r)
 	})
+	mux.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
+		views.Signin(w, r)
+	})
+	mux.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request) {
+		views.Signup(w, r)
+	})
+	mux.HandleFunc("/welcome", func(w http.ResponseWriter, r *http.Request) {
+		views.Welcome(w, r)
+	})
+	mux.HandleFunc("/refresh", func(w http.ResponseWriter, r *http.Request) {
+		views.Refresh(w, r)
+	})
+	mux.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+		views.Logout(w, r)
+	})
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.NotFound(w, r)

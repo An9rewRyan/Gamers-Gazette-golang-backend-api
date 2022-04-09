@@ -37,7 +37,7 @@ func Query_db(comm string) (pgx.Row, error) {
 
 func Create_basic_tables() {
 	var commnads []string
-	commnads = append(commnads, Create_articles_table_command, Create_recently_loaded_articles_table_command)
+	commnads = append(commnads, Create_articles_table_command, Create_recently_loaded_articles_table_command, Create_users_table_command)
 	for _, comm := range commnads {
 		res, err := Query_db(comm)
 		if err != nil {
