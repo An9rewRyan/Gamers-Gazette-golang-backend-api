@@ -7,8 +7,6 @@ import (
 	"d/go/structs"
 	"fmt"
 	"strconv"
-	"strings"
-	"time"
 
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -50,17 +48,16 @@ func Create_basic_tables() {
 	}
 }
 
-func Write_article_to_db(article structs.Article) string {
+func Write_article_to_db(article structs.Article_create) string {
 	Db, err := Connect_db()
 	if err != nil {
 		fmt.Println("failed to connect database")
 		return "fail"
 	} else {
-		defer Db.Close()
 		insert_string_to_artcls := `insert into articles(title, content, pub_date, image_url, src_link, site_alias)
-					  			values(` + `'` + article.Title + `','` + article.Content + `','` + strings.Split(article.Pub_date.String(), ".")[0] + `','` + article.Image_url + `','` + article.Src_link + `','` + article.Site_alias + `')`
+					  			values(` + `'` + article.Title + `','` + article.Content + `','` + article.Pub_date + `','` + article.Image_url + `','` + article.Src_link + `','` + article.Site_alias + `')`
 		insert_string_to_recent := `insert into recently_loaded_articles(pub_date, src_link, site_alias)
-								values('` + strings.Split(article.Pub_date.String(), ".")[0] + `','` + article.Src_link + `','` + article.Site_alias + `')`
+								values('` + article.Pub_date + `','` + article.Src_link + `','` + article.Site_alias + `')`
 		// delete_string_to_recent := `delete from recently_loaded_articles where site_name = '` + article.Site_alias + `'
 		// 													   and pub_date = (select min(pub_date) from recently_loaded_articles)`
 		_, err := Db.Query(context.Background(), insert_string_to_artcls)
@@ -83,12 +80,12 @@ func Write_article_to_db(article structs.Article) string {
 	}
 }
 
-func Select_all_articles() []structs.Article {
+func Select_all_articles() []structs.Article_select {
 	Db, err := Connect_db()
 	if err != nil {
 		fmt.Println("failed to connect database")
 	}
-	var articles []structs.Article
+	var articles []structs.Article_select
 	// err = pgxscan.Select(context.Background(), Db, &articles, Select_all_articles_command)
 	rows, err := Db.Query(context.Background(), Select_all_articles_command)
 	if err != nil {
@@ -96,7 +93,7 @@ func Select_all_articles() []structs.Article {
 		fmt.Println(err)
 	} else {
 		for rows.Next() {
-			var a structs.Article
+			var a structs.Article_select
 			err = rows.Scan(&a.Id, &a.Title, &a.Content, &a.Pub_date, &a.Image_url, &a.Src_link, &a.Site_alias)
 			if err != nil {
 				fmt.Println(err)
@@ -107,8 +104,8 @@ func Select_all_articles() []structs.Article {
 	return articles
 }
 
-func Select_article(id string) (structs.Article, error) {
-	var a structs.Article
+func Select_article(id string) (structs.Article_select, error) {
+	var a structs.Article_select
 	Db, err := Connect_db()
 
 	if err != nil {
@@ -127,9 +124,9 @@ func Select_article(id string) (structs.Article, error) {
 	return a, err
 }
 
-func Delete_article(id string) (structs.Article, error) {
+func Delete_article(id string) (structs.Article_select, error) {
 	Db, err := Connect_db()
-	var a structs.Article
+	var a structs.Article_select
 	if err != nil {
 		fmt.Println(err)
 		return a, errors.Get_api_article_error("No article with such id found!")
@@ -148,11 +145,11 @@ func Delete_article(id string) (structs.Article, error) {
 
 func Create_test_articles() {
 	for i := 0; i < 3; i += 1 {
-		article := structs.Article{
+		article := structs.Article_create{
 			Title:      "Test article number " + strconv.Itoa(i),
 			Content:    "Test text for article number " + strconv.Itoa(i),
 			Image_url:  "Test image url for article number " + strconv.Itoa(i),
-			Pub_date:   time.Now(),
+			Pub_date:   "2022-01-01 17:01:17",
 			Src_link:   "test.com",
 			Site_alias: "test",
 		}

@@ -2,6 +2,7 @@ package main
 
 import (
 	"d/go/views"
+	"d/go/views/api"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -12,13 +13,16 @@ func Set_urls(mux *mux.Router) {
 		views.About(w, r)
 	})
 	mux.HandleFunc("/api/articles/", func(w http.ResponseWriter, r *http.Request) {
-		views.ApiArticles(w, r)
+		api.ApiArticles(w, r)
 	})
 	mux.HandleFunc("/api/articles/{id}/", func(w http.ResponseWriter, r *http.Request) {
-		views.ApiArticleGet(w, r)
+		api.ApiArticleGet(w, r)
 	})
 	mux.HandleFunc("/api/articles/{id}/delete/", func(w http.ResponseWriter, r *http.Request) {
-		views.ApiArticleDelete(w, r)
+		api.ApiArticleDelete(w, r)
+	})
+	mux.HandleFunc("/api/articles/create", func(w http.ResponseWriter, r *http.Request) {
+		api.ApiArticleCreate(w, r)
 	})
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
