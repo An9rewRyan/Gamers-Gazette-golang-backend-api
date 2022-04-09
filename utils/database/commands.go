@@ -20,3 +20,4 @@ const Select_all_articles_command = `select * from articles;`
 const Select_all_new_articles_command = `select * from recently_loaded_articles;`
 
 const Select_article_command = "select * from articles where article_id = $1"
+const Delete_article_command = "delete from articles where article_id = $1"

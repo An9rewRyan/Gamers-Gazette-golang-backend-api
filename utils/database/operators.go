@@ -127,6 +127,25 @@ func Select_article(id string) (structs.Article, error) {
 	return a, err
 }
 
+func Delete_article(id string) (structs.Article, error) {
+	Db, err := Connect_db()
+	var a structs.Article
+	if err != nil {
+		fmt.Println(err)
+		return a, errors.Get_api_article_error("No article with such id found!")
+	}
+
+	row := Db.QueryRow(context.Background(), Delete_article_command, id)
+	err = row.Scan(&a.Id, &a.Title, &a.Content, &a.Pub_date, &a.Image_url, &a.Src_link, &a.Site_alias)
+	if err != nil {
+		fmt.Println(row)
+		if err.Error() == "no rows in result set" {
+			return a, errors.Get_api_article_error("No article with such id found!")
+		}
+	}
+	return a, err
+}
+
 func Create_test_articles() {
 	for i := 0; i < 3; i += 1 {
 		article := structs.Article{

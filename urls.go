@@ -15,7 +15,10 @@ func Set_urls(mux *mux.Router) {
 		views.ApiArticles(w, r)
 	})
 	mux.HandleFunc("/api/articles/{id}/", func(w http.ResponseWriter, r *http.Request) {
-		views.ApiArticle(w, r)
+		views.ApiArticleGet(w, r)
+	})
+	mux.HandleFunc("/api/articles/{id}/delete/", func(w http.ResponseWriter, r *http.Request) {
+		views.ApiArticleDelete(w, r)
 	})
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
