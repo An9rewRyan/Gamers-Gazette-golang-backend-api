@@ -1,8 +1,7 @@
 package auth
 
 import (
-	"d/go/config"
-	"d/go/utils"
+	"d/go/utils/session"
 	"net/http"
 	"time"
 
@@ -22,13 +21,13 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	}
 	sessionToken := c.Value
 
-	userSession, exists := config.Sessions[sessionToken]
+	userSession, exists := session.Sessions[sessionToken]
 	if !exists {
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 	if userSession.IsExpired() {
-		delete(config.Sessions, sessionToken)
+		delete(session.Sessions, sessionToken)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
@@ -36,21 +35,22 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 
 	// If the previous session is valid, create a new session token for the current user
 	newSessionToken := uuid.NewString()
-	expiresAt := time.Now().Add(120 * time.Second)
+	expiresAt := time.Now().Add(30 * time.Minute)
 
 	// Set the token in the session map, along with the user whom it represents
-	config.Sessions[newSessionToken] = utils.Session{
+	session.Sessions[newSessionToken] = session.Session{
 		Username: userSession.Username,
 		Expiry:   expiresAt,
+		Role:     userSession.Role,
 	}
 
 	// Delete the older session token
-	delete(config.Sessions, sessionToken)
+	delete(session.Sessions, sessionToken)
 
 	// Set the new token as the users `session_token` cookie
 	http.SetCookie(w, &http.Cookie{
 		Name:    "session_token",
 		Value:   newSessionToken,
-		Expires: time.Now().Add(120 * time.Second),
+		Expires: time.Now().Add(30 * time.Minute),
 	})
 }

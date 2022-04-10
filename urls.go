@@ -34,9 +34,9 @@ func Set_urls(mux *mux.Router) {
 	mux.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request) {
 		auth.Signup(w, r)
 	})
-	mux.HandleFunc("/welcome", func(w http.ResponseWriter, r *http.Request) {
-		auth.Welcome(w, r)
-	})
+	// mux.HandleFunc("/welcome", func(w http.ResponseWriter, r *http.Request) {
+	// 	auth.Welcome(w, r)
+	// })
 	mux.HandleFunc("/refresh", func(w http.ResponseWriter, r *http.Request) {
 		auth.Refresh(w, r)
 	})

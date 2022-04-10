@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"d/go/config"
+	"d/go/utils/session"
 	"net/http"
 	"time"
 )
@@ -21,7 +21,7 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 	sessionToken := c.Value
 
 	// remove the users session from the session map
-	delete(config.Sessions, sessionToken)
+	delete(session.Sessions, sessionToken)
 
 	// We need to let the client know that the cookie is expired
 	// In the response, we set the session token to an empty

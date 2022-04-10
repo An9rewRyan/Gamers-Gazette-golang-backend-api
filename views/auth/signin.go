@@ -2,10 +2,9 @@ package auth
 
 import (
 	"context"
-	"d/go/config"
 	"d/go/structs"
-	"d/go/utils"
 	"d/go/utils/database"
+	"d/go/utils/session"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -33,8 +32,8 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the expected password from database
-	result := db.QueryRow(context.Background(), "select password from users where username=$1", creds.Username)
-	err = result.Scan(&storedCreds.Password)
+	result := db.QueryRow(context.Background(), "select password, role from users where username=$1", creds.Username)
+	err = result.Scan(&storedCreds.Password, &storedCreds.Role)
 	if err != nil {
 		// If an entry with the username does not exist, send an "Unauthorized"(401) status
 		if err == pgx.ErrNoRows {
@@ -56,9 +55,10 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	expiresAt := time.Now().Add(30 * time.Minute)
 
 	// Set the token in the session map, along with the session information
-	config.Sessions[sessionToken] = utils.Session{
+	session.Sessions[sessionToken] = session.Session{
 		Username: creds.Username,
 		Expiry:   expiresAt,
+		Role:     storedCreds.Role,
 	}
 
 	// Finally, we set the client cookie for "session_token" as the session token we just generated
