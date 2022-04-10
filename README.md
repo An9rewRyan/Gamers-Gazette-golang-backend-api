@@ -10,9 +10,8 @@
 
 ### How to launch: 
  1. Go to root directory of this project
- 2. Create db with charecteristics from config DbConnStr
- 3. Run: go mod install
- 4. Run: air 
+ 2. Uncomment marked string in main.go file
+ 3. Run: docker compose up --build
 
 ***
 
