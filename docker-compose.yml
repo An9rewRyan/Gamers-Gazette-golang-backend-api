@@ -2,16 +2,6 @@
 version: "0.0.1"
 services:
 
-  web:
-    build: .
-    command:  /bin/sh -c "rm -r -f go && go build . && ./go"
-    volumes: 
-      - .:/app
-    depends_on:
-      - db
-    ports:
-      - 8000:8000
-
   db:
     image: 'postgres:13.0-alpine'
     volumes:
@@ -20,6 +10,16 @@ services:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: 1234
         POSTGRES_DB: main_db
+
+  backend:
+    build: ./backend
+    command:  /bin/sh -c "rm -r -f go && go build . && ./go"
+    volumes: 
+      - ./backend:/backend
+    depends_on:
+      - db
+    ports:
+      - 8000:8000
 
 volumes:
   postgres_data:

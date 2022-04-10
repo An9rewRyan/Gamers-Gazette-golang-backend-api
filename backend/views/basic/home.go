@@ -1,4 +1,4 @@
-package views
+package basic
 
 import (
 	"d/go/utils/html"

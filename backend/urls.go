@@ -1,18 +1,16 @@
 package main
 
 import (
-	"d/go/views"
 	"d/go/views/api"
 	"d/go/views/auth"
 	"net/http"
+
+	"d/go/views/basic"
 
 	"github.com/gorilla/mux"
 )
 
 func Set_urls(mux *mux.Router) {
-	mux.HandleFunc("/about/", func(w http.ResponseWriter, r *http.Request) {
-		views.About(w, r)
-	})
 	mux.HandleFunc("/api/articles/", func(w http.ResponseWriter, r *http.Request) {
 		api.ApiArticles(w, r)
 	})
@@ -48,8 +46,9 @@ func Set_urls(mux *mux.Router) {
 			http.NotFound(w, r)
 			return
 		} else {
-			views.Home(w, r)
+			basic.Home(w, r)
 		}
 	})
-	mux.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	mux.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
+		http.FileServer(http.Dir("static/"))))
 }
