@@ -12,7 +12,7 @@ func main() {
 	// utils.Create_articles_table()
 	// utils.Create_recently_loaded_articles_table()
 	router := mux.NewRouter()
-	fmt.Println("Server is listening...")
+	fmt.Println("Server is listening....")
 	server := http.Server{
 		Addr:    ":8000",
 		Handler: router,
