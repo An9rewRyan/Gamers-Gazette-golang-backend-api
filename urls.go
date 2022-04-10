@@ -3,6 +3,7 @@ package main
 import (
 	"d/go/views"
 	"d/go/views/api"
+	"d/go/views/auth"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -28,19 +29,19 @@ func Set_urls(mux *mux.Router) {
 		api.ApiArticleUpdate(w, r)
 	})
 	mux.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
-		views.Signin(w, r)
+		auth.Signin(w, r)
 	})
 	mux.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request) {
-		views.Signup(w, r)
+		auth.Signup(w, r)
 	})
 	mux.HandleFunc("/welcome", func(w http.ResponseWriter, r *http.Request) {
-		views.Welcome(w, r)
+		auth.Welcome(w, r)
 	})
 	mux.HandleFunc("/refresh", func(w http.ResponseWriter, r *http.Request) {
-		views.Refresh(w, r)
+		auth.Refresh(w, r)
 	})
 	mux.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
-		views.Logout(w, r)
+		auth.Logout(w, r)
 	})
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {

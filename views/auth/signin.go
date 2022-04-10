@@ -1,4 +1,4 @@
-package views
+package auth
 
 import (
 	"context"
@@ -32,7 +32,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Get the expected password from our in memory map
+	// Get the expected password from database
 	result := db.QueryRow(context.Background(), "select password from users where username=$1", creds.Username)
 	err = result.Scan(&storedCreds.Password)
 	if err != nil {
@@ -53,7 +53,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sessionToken := uuid.NewString()
-	expiresAt := time.Now().Add(120 * time.Second)
+	expiresAt := time.Now().Add(30 * time.Minute)
 
 	// Set the token in the session map, along with the session information
 	config.Sessions[sessionToken] = utils.Session{
