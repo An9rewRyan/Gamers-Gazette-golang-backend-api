@@ -20,7 +20,7 @@ RUN npm install
 # Final stage build, this will be the container
 # that we will deploy to production
 FROM alpine:latest
-WORKDIR /main
+WORKDIR "/main"
 RUN apk --no-cache add ca-certificates
 COPY --from=builder . .
 COPY --from=node_builder . .
@@ -29,4 +29,4 @@ RUN ls
 EXPOSE 8000
 EXPOSE 3000
 RUN ls
-CMD cd backend; ./go
+CMD ls; cd backend; ls; ./go
