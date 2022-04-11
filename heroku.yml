@@ -1,8 +1,0 @@
-build:
-  docker:
-    backend: backend/Dockerfile
-    frontend: frontend/Dockerfile
-
-run:
-  backend: ./go
-  frontend: npm start
