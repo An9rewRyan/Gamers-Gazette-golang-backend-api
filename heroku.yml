@@ -2,3 +2,6 @@ build:
   docker:
     web_server: backend/Dockerfile
     web_client: frontend/Dockerfile
+run: 
+  web_server: ./go
+  web_client: npm start
