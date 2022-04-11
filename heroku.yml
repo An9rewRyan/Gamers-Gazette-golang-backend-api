@@ -1,6 +1,8 @@
 build:
   docker:
     web: backend/Dockerfile
+    worker:
+      dockerfile: backend/Dockerfile
     # web: frontend/Dockerfile
 
 # release:
