@@ -1,6 +1,7 @@
 package main
 
 import (
+	"d/go/routers"
 	"fmt"
 	"net/http"
 	"os"
@@ -24,10 +25,13 @@ func main() {
 		AllowCredentials: true,
 	})
 	router := mux.NewRouter()
+	api := router.PathPrefix("/api/v1/").Subrouter()
+	auth := router.PathPrefix("/auth/").Subrouter()
+	routers.Route_api(api)
+	routers.Route_auth(auth)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("../web")))
-	// router.PathPrefix("/articles/").Handler(http.FileServer(http.Dir("../web")))
 	fmt.Println("Server is listening....")
-	Set_urls(router)
+
 	handler := cors.Handler(router)
 	port := os.Getenv("PORT")
 	if port == "" {
