@@ -17,7 +17,6 @@ ADD frontend .
 RUN ls
 RUN npm install
 RUN npm run build
-RUN serve -s build
 # npm install -g serve
 
 # RUN npm run build
@@ -27,7 +26,7 @@ FROM ubuntu:latest
 WORKDIR "/main"
 # RUN apk --no-cache add ca-certificates
 COPY --from=builder "/backend" ./backend
-COPY --from=node_builder "/frontend" ./frontend
+COPY --from=node_builder /build ./web
 # RUN apt-get update
 # RUN apt-get install -y supervisor
 # ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf 

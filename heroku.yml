@@ -1,14 +1,14 @@
-# build:
-#   docker:
-#     web: Dockerfile
-#     worker:
-#        dockerfile: Dockerfile
-#        target: builder
-# release:
-#   image: worker
-#   command:
-#     - echo 'Starting go server after deployment!';
 build:
   docker:
-    web: frontend/Dockerfile
-    worker: backend/Dockerfile 
+    web: Dockerfile
+    worker:
+      dockerfile: Dockerfile
+      target: builder
+release:
+  image: worker
+  command:
+    - echo 'Starting go server after deployment!';
+# build:
+#   docker:
+#     web: frontend/Dockerfile
+#     worker: backend/Dockerfile 

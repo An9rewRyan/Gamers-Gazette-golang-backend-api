@@ -5,8 +5,6 @@ import (
 	"d/go/views/auth"
 	"net/http"
 
-	"d/go/views/basic"
-
 	"github.com/gorilla/mux"
 )
 
@@ -41,14 +39,16 @@ func Set_urls(mux *mux.Router) {
 	mux.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		auth.Logout(w, r)
 	})
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			http.NotFound(w, r)
-			return
-		} else {
-			basic.Home(w, r)
-		}
-	})
+	// mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	if r.URL.Path != "/" {
+	// 		http.NotFound(w, r)
+	// 		return
+	// 	} else {
+	// 		basic.Home(w, r)
+	// 	}
+	// })
 	mux.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
 		http.FileServer(http.Dir("static/"))))
+	mux.PathPrefix("/").Handler(http.StripPrefix("/",
+		http.FileServer(http.Dir("../web"))))
 }
