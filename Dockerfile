@@ -1,6 +1,6 @@
 # Build the Go API
 FROM golang:latest AS builder
-WORKDIR /backend
+WORKDIR "/backend"
 RUN ls
 RUN cd backend
 RUN ls
