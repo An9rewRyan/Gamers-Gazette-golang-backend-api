@@ -1,7 +1,8 @@
 import './App.css';
 import React from 'react';
 
-
+const PORT = process.env.PORT || 3000
+console.log(PORT)
 class ArticlesApp extends React.Component {
    
   constructor(props) {
@@ -12,10 +13,10 @@ class ArticlesApp extends React.Component {
           DataisLoaded: false
       };
   }
- 
+
   componentDidMount() {
       fetch(
-"https://gamersgazette.herokuapp.com/api/articles/")
+`https://gamersgazette.herokuapp.com:${PORT}/api/articles/`)
           .then((res) => res.json())
           .then((json) => {
               this.setState({

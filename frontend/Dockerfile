@@ -5,5 +5,5 @@ RUN ls
 ADD . .
 RUN ls
 RUN npm install
-EXPOSE 3000
+# RUN npm run build
 CMD npm start

@@ -28,7 +28,10 @@ func main() {
 	handler := cors.Handler(router)
 	Set_urls(router)
 	port := os.Getenv("PORT")
-	fmt.Println("Port")
+	if port == "" {
+		port = "8080"
+	}
+	fmt.Println("Port: ", port)
 	server := http.Server{
 		Addr:    ":" + port,
 		Handler: handler,

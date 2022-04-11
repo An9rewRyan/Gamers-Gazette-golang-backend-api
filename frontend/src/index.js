@@ -8,6 +8,7 @@ import {
 import './index.css';
 import ArticlesApp from './ArticlesApp';
 import reportWebVitals from './reportWebVitals';
+import * as serviceWorker from './serviceWorker';
 
 const Routing = () => {
   return(
@@ -28,3 +29,4 @@ ReactDOM.render(
 );
 
 reportWebVitals();
+serviceWorker.unregister();
