@@ -9,22 +9,24 @@ RUN go mod download
 RUN go mod tidy
 RUN go build .
 EXPOSE 8000
+
 # RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-w" -a -o /main .
 # Build the React application
-FROM node:alpine AS node_builder
+FROM node:latest AS node_builder
 WORKDIR "/frontend"
 RUN ls
 ADD frontend .
 RUN ls
 RUN npm install
 EXPOSE 3000
+
 # RUN npm run build
 # Final stage build, this will be the container
 # that we will deploy to production
-FROM alpine:latest
-# WORKDIR "/main"
+FROM ubuntu:latest
+WORKDIR "/main"
 # RUN apk --no-cache add ca-certificates
-# COPY --from=builder "/backend" ./backend
-# COPY --from=node_builder "/frontend" ./frontend
+COPY --from=builder "/backend" ./backend
+COPY --from=node_builder "/frontend" ./frontend
 RUN ls
-CMD ls; cd backend; ls; ./go
+CMD cd backend; ./go
