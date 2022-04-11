@@ -4,9 +4,28 @@ build:
     web: frontend/Dockerfile
 
 # release:
-#   image: web
+#   image: worker
 #   command:
 #     - echo 'Starting go server after deployment!';
-run: 
-  worker: ./go
-  web: npm start
+# run: 
+#   worker: ./go
+#   web: npm start
+
+# build:
+#   docker:
+#     web: Dockerfile
+#     worker: worker/Dockerfile
+#   config:
+#     RAILS_ENV: development
+#     FOO: bar
+# release:
+#   command:
+#     - ./deployment-tasks.sh
+#   image: worker
+# run:
+#   web: bundle exec puma -C config/puma.rb
+#   worker: python myworker.py
+#   asset-syncer:
+#     command:
+#       - python asset-syncer.py
+#     image: worker
