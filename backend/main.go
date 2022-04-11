@@ -26,8 +26,8 @@ func main() {
 	router := mux.NewRouter()
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("../web")))
 	fmt.Println("Server is listening....")
+	// Set_urls(router)
 	handler := cors.Handler(router)
-	Set_urls(router)
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
