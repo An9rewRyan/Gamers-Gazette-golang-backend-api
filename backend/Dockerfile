@@ -1,5 +1,6 @@
 FROM golang:latest AS builder
 WORKDIR "/backend"
+RUN ls
 ADD backend .
 RUN ls
 RUN go mod download
