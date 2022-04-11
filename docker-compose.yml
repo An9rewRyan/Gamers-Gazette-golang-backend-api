@@ -20,6 +20,17 @@ services:
       - db
     ports:
       - 8000:8000
+    
+  frontend:
+    build: ./frontend
+    command:  /bin/sh -c "npm start"
+    volumes: 
+      - ./frontend:/frontend
+    depends_on:
+      - backend
+      - db
+    ports:
+      - 3000:3000
 
 volumes:
   postgres_data:
