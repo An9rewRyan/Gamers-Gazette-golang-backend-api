@@ -17,7 +17,7 @@ ADD frontend .
 RUN ls
 RUN npm install
 RUN npm run build
-
+RUN serve -s build
 # npm install -g serve
 
 # RUN npm run build
