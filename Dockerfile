@@ -4,7 +4,7 @@ ADD . /app
 WORKDIR /app/backend
 COPY . .
 RUN ls
-RUN rm -r go
+# RUN rm -r go
 RUN go mod download
 RUN go mod tidy
 RUN go build .
