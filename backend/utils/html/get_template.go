@@ -13,7 +13,7 @@ func Get_template(template_name string) string {
 		log.Println(err)
 	}
 	fmt.Println(path)
-	template_dir := "../../templates/" + template_name
+	template_dir := "templates/" + template_name
 	file, err := os.Open(template_dir)
 	if err != nil {
 		fmt.Println("template does not exist!")
