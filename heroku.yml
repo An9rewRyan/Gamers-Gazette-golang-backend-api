@@ -3,10 +3,10 @@ build:
     worker: backend/Dockerfile
     web: frontend/Dockerfile
 
-# release:
-#   image: worker
-#   command:
-#     - echo 'Starting go server after deployment!';
+release:
+  image: worker
+  command:
+    - echo 'Starting go server after deployment!';
 # run: 
 #   worker: ./go
 #   web: npm start
