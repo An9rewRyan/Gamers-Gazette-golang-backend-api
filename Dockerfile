@@ -1,6 +1,7 @@
 # Build the Go API
 FROM golang:latest AS builder
 WORKDIR /backend
+RUN cd backend
 COPY . .
 RUN ls
 # RUN rm -r go
@@ -11,6 +12,7 @@ RUN go build .
 # Build the React application
 FROM node:alpine AS node_builder
 WORKDIR /frontend
+RUN cd ../frontend
 COPY . .
 RUN ls
 RUN npm install
