@@ -18,6 +18,8 @@ RUN ls
 RUN npm install
 RUN npm run build
 
+# npm install -g serve
+
 # RUN npm run build
 # Final stage build, this will be the container
 # that we will deploy to production
