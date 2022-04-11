@@ -1,10 +1,10 @@
 package main
 
 import (
-	"d/go/utils/database"
 	"fmt"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -12,7 +12,13 @@ import (
 
 func main() {
 	//uncomment on first launch and comment after sucess
-	database.Create_basic_tables()
+	// database.Create_basic_tables()
+	ex, err := os.Executable()
+	if err != nil {
+		panic(err)
+	}
+	exPath := filepath.Dir(ex)
+	fmt.Println("Path to exec: ", exPath)
 	cors := cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3000"},
 		AllowCredentials: true,
