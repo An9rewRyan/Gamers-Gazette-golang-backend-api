@@ -24,7 +24,7 @@ EXPOSE 3000
 FROM alpine:latest
 WORKDIR "/main"
 RUN apk --no-cache add ca-certificates
-COPY --from=builder "/backend" .
-COPY --from=node_builder "/frontend" .
+COPY --from=builder "/backend" ./backend
+COPY --from=node_builder "/frontend" ./frontend
 RUN ls
 CMD ls; cd backend; ls; ./go
