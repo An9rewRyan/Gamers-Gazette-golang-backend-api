@@ -71,9 +71,6 @@ func main() {
 	spa := spaHandler{staticPath: "../web", indexPath: "index.html"}
 	router.PathPrefix("/").Handler(spa)
 
-	// router.PathPrefix("/articles/").Handler(http.FileServer(http.Dir("../web")))
-	// router.PathPrefix("/articles/").Handler(http.StripPrefix("/articles/", http.FileServer(http.Dir("../web"))))
-	// router.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("../web"))))
 	fmt.Println("Server is listening....")
 
 	handler := cors.Handler(router)

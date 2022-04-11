@@ -29,7 +29,7 @@ class ArticlesApp extends React.Component {
       const { DataisLoaded, items } = this.state;
       if (!DataisLoaded) return <div>
           <h1> Pleses wait some time.... </h1> </div> ;
- 
+      if (items != null){
       return (
       <div className = "App">
           <h1> Fetch data from an api in react </h1>  {
@@ -45,8 +45,14 @@ class ArticlesApp extends React.Component {
               ))
           }
       </div>
-  );
-}
+      )}
+      else{
+        return (
+            <div className = "App">
+                <h1></h1>
+            </div>
+        )}
+    }
 }
 
 export default ArticlesApp;
