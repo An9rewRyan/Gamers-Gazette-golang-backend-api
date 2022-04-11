@@ -24,6 +24,7 @@ func main() {
 		AllowCredentials: true,
 	})
 	router := mux.NewRouter()
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("../web")))
 	fmt.Println("Server is listening....")
 	handler := cors.Handler(router)
 	Set_urls(router)

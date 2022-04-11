@@ -49,6 +49,6 @@ func Set_urls(mux *mux.Router) {
 	// })
 	mux.PathPrefix("/static/").Handler(http.StripPrefix("/static/",
 		http.FileServer(http.Dir("static/"))))
-	mux.PathPrefix("/").Handler(http.StripPrefix("/",
-		http.FileServer(http.Dir("../web"))))
+	// mux.PathPrefix("/").Handler(http.StripPrefix("/",
+	// 	http.FileServer(http.Dir("../web"))))
 }
