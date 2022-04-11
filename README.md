@@ -1,11 +1,11 @@
 ## Welcome to the golang web platoform
 (also known as backend for Gamers Gazette project)
 
-![](https://img.shields.io/badge/golang-1.17-52a7f7) ![](https://img.shields.io/badge/-postgresql-3294f0) ![](https://img.shields.io/badge/-docker-32c7f0) ![](https://img.shields.io/badge/-htmlquery-4f75ff)
-
+![](https://img.shields.io/badge/golang-1.17-52a7f7) ![](https://img.shields.io/badge/-postgresql-3294f0) ![](https://img.shields.io/badge/-docker-32c7f0) ![](https://img.shields.io/badge/-htmlquery-4f75ff) 
 
 >  Work in progress... *(i mean it)*
-
+<img src='https://bettercodehub.com/edge/badge/An9rewRyan/Gamers-Gazette?branch=main'>
+Guess it is okey..
 ---
 
 ### How to launch: 
