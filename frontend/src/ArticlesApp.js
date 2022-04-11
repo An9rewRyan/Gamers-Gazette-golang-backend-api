@@ -15,7 +15,7 @@ class ArticlesApp extends React.Component {
  
   componentDidMount() {
       fetch(
-"http://localhost:8000/api/articles/")
+"https://gamersgazette.herokuapp.com/api/articles/")
           .then((res) => res.json())
           .then((json) => {
               this.setState({
