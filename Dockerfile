@@ -2,7 +2,8 @@
 FROM golang:latest AS builder
 WORKDIR /backend
 RUN ls
-# RUN cd backend
+RUN cd backend
+RUN ls
 COPY . .
 RUN ls
 # RUN rm -r go
