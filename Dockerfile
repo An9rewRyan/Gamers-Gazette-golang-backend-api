@@ -18,4 +18,5 @@ COPY --from=node_builder /build ./web
 RUN chmod +x ./main
 EXPOSE 8000
 EXPOSE 3000
+RUN ls
 CMD ./main
