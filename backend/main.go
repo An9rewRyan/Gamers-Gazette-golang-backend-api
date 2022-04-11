@@ -4,6 +4,7 @@ import (
 	// "d/go/utils/database"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -20,8 +21,10 @@ func main() {
 	fmt.Println("Server is listening....")
 	handler := cors.Handler(router)
 	Set_urls(router)
+	port := os.Getenv("PORT")
+	fmt.Println("Port")
 	server := http.Server{
-		Addr:    ":8000",
+		Addr:    ":" + port,
 		Handler: handler,
 	}
 
