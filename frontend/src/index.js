@@ -7,16 +7,15 @@ import {
 } from "react-router-dom";
 import './index.css';
 import ArticlesApp from './ArticlesApp';
-import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 
 const Routing = () => {
   return(
     <Router>
-      <Routes>
-        <Route exact path="/articles/"  element={<ArticlesApp />} />
+        <Switch>
+          <Route path="/articles/*"  exact component={ArticlesApp} />
         {/* <Route exact path="games/" element={<GamesApp />}/> */}
-      </Routes>
+        </Switch>
     </Router>
   )
 }

@@ -30,6 +30,7 @@ func main() {
 	routers.Route_api(api)
 	routers.Route_auth(auth)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("../web")))
+	router.PathPrefix("/articles/").Handler(http.FileServer(http.Dir("../web")))
 	fmt.Println("Server is listening....")
 
 	handler := cors.Handler(router)
