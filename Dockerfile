@@ -13,7 +13,6 @@ RUN go build .
 FROM node:alpine AS node_builder
 WORKDIR "/frontend"
 RUN ls
-RUN cd ../frontend
 ADD frontend .
 RUN ls
 RUN npm install
