@@ -2,7 +2,7 @@
 FROM golang:latest AS builder
 WORKDIR "/backend"
 RUN ls
-COPY . .
+ADD backend .
 RUN ls
 # RUN rm -r go
 RUN go mod download
