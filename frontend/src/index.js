@@ -13,8 +13,8 @@ const Routing = () => {
   return(
     <Router>
       <Routes>
-        <Route path="/articles/*"  exact component={ArticlesApp} />
-        <Route path="/"  exact component={ArticlesApp} />
+        {/* <Route path="/articles/*"  exact component={ArticlesApp} /> */}
+        <Route exact path="/"  element={ArticlesApp} />
         {/* <Route exact path="games/" element={<GamesApp />}/> */}
       </Routes>
     </Router>
