@@ -12,10 +12,10 @@ import * as serviceWorker from './serviceWorker';
 const Routing = () => {
   return(
     <Router>
-        <Switch>
-          <Route path="/articles/*"  exact component={ArticlesApp} />
+      <Routes>
+        <Route path="/articles/*"  exact component={ArticlesApp} />
         {/* <Route exact path="games/" element={<GamesApp />}/> */}
-        </Switch>
+      </Routes>
     </Router>
   )
 }
