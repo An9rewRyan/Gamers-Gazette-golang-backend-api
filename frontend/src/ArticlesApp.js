@@ -49,7 +49,7 @@ class ArticlesApp extends React.Component {
       else{
         return (
             <div className = "App">
-                <h1></h1>
+                <h1>Database is empty!</h1>
             </div>
         )}
     }
