@@ -1,7 +1,7 @@
 FROM node:latest AS node_builder
-WORKDIR "/frontend"
+WORKDIR /frontend
 RUN ls
-ADD frontend .
+ADD . .
 RUN ls
 RUN npm install
 EXPOSE 3000

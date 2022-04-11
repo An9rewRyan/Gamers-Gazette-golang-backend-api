@@ -1,5 +1,5 @@
 FROM golang:latest AS builder
-WORKDIR "/backend"
+WORKDIR /backend
 RUN ls
 ADD backend .
 RUN ls
