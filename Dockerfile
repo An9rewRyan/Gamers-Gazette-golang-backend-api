@@ -1,7 +1,8 @@
 # Build the Go API
 FROM golang:latest AS builder
 WORKDIR /backend
-RUN cd backend
+RUN ls
+# RUN cd backend
 COPY . .
 RUN ls
 # RUN rm -r go
