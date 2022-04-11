@@ -7,7 +7,7 @@ import (
 )
 
 func Get_template(template_name string) string {
-	template_dir := "./templates/" + template_name
+	template_dir := "backend/templates/" + template_name
 	file, err := os.Open(template_dir)
 	if err != nil {
 		fmt.Println("template does not exist!")
