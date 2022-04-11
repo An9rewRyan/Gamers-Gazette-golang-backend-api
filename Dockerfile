@@ -9,6 +9,7 @@ FROM node:alpine AS node_builder
 COPY --from=builder /app/frontend ./
 RUN npm install
 RUN npm run build
+CMD npm start
 # Final stage build, this will be the container
 # that we will deploy to production
 FROM alpine:latest
