@@ -46,6 +46,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 	bytes, _ := ioutil.ReadAll(resp.Body)
+	fmt.Fprint(w, string(bytes))
 	email := gjson.Get(string(bytes), "email")
 	url = fmt.Sprintf("https://api.vk.com/method/users.get?access_token=%s&fields=%s&user_id=%s&v=5.131", gjson.Get(string(bytes), "access_token"), scopeTemp, gjson.Get(string(bytes), "user_id"))
 	fmt.Println(url)
