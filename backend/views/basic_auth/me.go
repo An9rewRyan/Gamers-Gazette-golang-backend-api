@@ -1,4 +1,4 @@
-package auth
+package basic_auth
 
 import (
 	"d/go/utils/session"

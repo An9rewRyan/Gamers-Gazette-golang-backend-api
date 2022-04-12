@@ -1,4 +1,4 @@
-package auth
+package social_auth
 
 import (
 	"crypto/tls"
