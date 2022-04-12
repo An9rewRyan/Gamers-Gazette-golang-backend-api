@@ -42,6 +42,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 		Username: userSession.Username,
 		Expiry:   expiresAt,
 		Role:     userSession.Role,
+		Email:    userSession.Email,
 	}
 
 	// Delete the older session token

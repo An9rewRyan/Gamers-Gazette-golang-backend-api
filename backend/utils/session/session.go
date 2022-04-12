@@ -8,6 +8,7 @@ type Session struct {
 	Username string
 	Expiry   time.Time
 	Role     string
+	Email    string
 }
 
 func (s Session) IsExpired() bool {
