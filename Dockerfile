@@ -32,5 +32,5 @@ RUN ls
 # RUN apt-get update
 # RUN apt-get install -y supervisor
 # ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf 
-EXPOSE 8080
+EXPOSE 3000
 CMD cd backend; ./go
