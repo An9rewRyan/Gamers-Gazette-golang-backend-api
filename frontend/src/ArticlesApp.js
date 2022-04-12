@@ -41,6 +41,7 @@ class ArticlesApp extends React.Component {
                   Content: { item.content }, 
                   Src_link: {item.src_link},
                   Site_alias: {item.site_alias}
+                  <br></br>
                   </ol>
               ))
           }
