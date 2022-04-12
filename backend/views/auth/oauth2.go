@@ -26,7 +26,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	redirectURI := "https://gamersgazette.herokuapp.com/auth/me"
 	clientID := "8134856"
 	clientSecret := "7Vw4ALUIHMLPpHTKiRlG"
-	scope := []string{"bdate", "account"}
+	scope := []string{"account", "email", "bdate"}
 	scopeTemp := strings.Join(scope, "+")
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -50,11 +50,11 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	// 	AccessToken string `json:"access_token"`
 	// }{}
 	bytes, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(gjson.Get(string(bytes), "response.#.id"), gjson.Get(string(bytes), "response.#.bdate"), gjson.Get(string(bytes), "response.#.email"))
+	fmt.Println(gjson.Get(string(bytes), "user_id"), gjson.Get(string(bytes), "bdate"), gjson.Get(string(bytes), "email"))
 	fmt.Fprint(w, string(bytes))
 	// fmt.Println(string(bytes), gjson.Get(string(bytes), "response.#.id"), gjson.Get(string(bytes), "response.#.bdate"), gjson.Get(string(bytes), "response.#.email"))
 	// json.Unmarshal(bytes, &token)
-	url = fmt.Sprintf("https://api.vk.com/method/users.get?&access_token=%s&fields=%s&user_ids=%s&v=5.81", gjson.Get(string(bytes), "response.#.access_tocken"), scopeTemp, gjson.Get(string(bytes), "response.#.id"))
+	url = fmt.Sprintf("https://api.vk.com/method/users.get?&access_token=%s&fields=%s&user_ids=%s&v=5.81", gjson.Get(string(bytes), "access_tocken"), scopeTemp, gjson.Get(string(bytes), "user_id"))
 	fmt.Println(url)
 	req, err = http.NewRequest("GET", url, nil)
 	if err != nil {
