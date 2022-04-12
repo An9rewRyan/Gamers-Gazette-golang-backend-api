@@ -17,7 +17,7 @@ func Oauth2(w http.ResponseWriter, r *http.Request) {
 	scope := []string{"email", "account", "friends", "bdate"}
 	state := "12345"
 	scopeTemp := strings.Join(scope, "+")
-	url := fmt.Sprintf("https://oauth.vk.com/authorize?response_type=token&client_id=%s&redirect_uri=%s&scope=%s&state=%s", clientID, redirectURI, scopeTemp, state)
+	url := fmt.Sprintf("https://oauth.vk.com/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s&state=%s", clientID, redirectURI, scopeTemp, state)
 	fmt.Fprint(w, url)
 }
 
