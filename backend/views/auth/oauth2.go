@@ -2,8 +2,6 @@ package auth
 
 import (
 	"fmt"
-	"io"
-	"log"
 	"net/http"
 	"strings"
 )
@@ -82,9 +80,9 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	// fmt.Fprint(w, string(bytes))
 }
 
-func respErr(w http.ResponseWriter, err error) {
-	_, er := io.WriteString(w, err.Error())
-	if er != nil {
-		log.Println(err)
-	}
-}
+// func respErr(w http.ResponseWriter, err error) {
+// 	_, er := io.WriteString(w, err.Error())
+// 	if er != nil {
+// 		log.Println(err)
+// 	}
+// }
