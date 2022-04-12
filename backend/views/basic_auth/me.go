@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func LoggedIn(w http.ResponseWriter, r *http.Request) {
+func Me(w http.ResponseWriter, r *http.Request) {
 	c, err := r.Cookie("session_token")
 	if err != nil {
 		if err == http.ErrNoCookie {
