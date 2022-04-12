@@ -9,8 +9,9 @@
 
 ### How to launch: 
  1. Go to root directory of this project
- 2. Uncomment marked string in main.go file
- 3. Run: docker compose up --build
+ 2. Run: docker build -t main . 
+ 3. Run: docker run -dp 3000:3000 main
+ 4. Enjoy!
 
 ***
 
