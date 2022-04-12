@@ -1,10 +1,8 @@
 package auth
 
 import (
-	"crypto/tls"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
@@ -21,10 +19,12 @@ func Oauth2(w http.ResponseWriter, r *http.Request) {
 }
 
 func Me(w http.ResponseWriter, r *http.Request) {
-	token := r.URL.Query().Get("access_token")
-	scope := []string{"email", "account", "friends", "bdate"}
-	// state := "12345"
-	scopeTemp := strings.Join(scope, "+")
+	token := r.URL.Fragment
+	fmt.Println(token)
+	fmt.Fprint(w, string(token))
+	// scope := []string{"email", "account", "friends", "bdate"}
+	// // state := "12345"
+	// scopeTemp := strings.Join(scope, "+")
 	// 	clientID := "8134856"
 	// 	redirectURI := "https://gamersgazette.herokuapp.com/auth/me"
 	// 	clientSecret := "7Vw4ALUIHMLPpHTKiRlG"
@@ -44,10 +44,10 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	// 		respErr(w, fmt.Errorf("code query param is not provided"))
 	// 		return
 	// 	}
-	tr := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-	client := &http.Client{Transport: tr}
+	// tr := &http.Transport{
+	// 	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	// }
+	// client := &http.Client{Transport: tr}
 	// 	url := fmt.Sprintf("https://oauth.vk.com/access_token?grant_type=authorization_code&code=%s&redirect_uri=%s&client_id=%s&client_secret=%s", code, redirectURI, clientID, clientSecret)
 	// 	req, _ := http.NewRequest("POST", url, nil)
 	// 	resp, err := client.Do(req)
@@ -62,24 +62,24 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	// 	bytes, _ := ioutil.ReadAll(resp.Body)
 	// 	fmt.Fprint(w, string(bytes))
 	// 	json.Unmarshal(bytes, &token)
-	url := fmt.Sprintf("https://api.vk.com/method/%s?v=5.81&access_token=%s&fields=%s", "users.get", token, scopeTemp)
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		respErr(w, err)
-		return
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		respErr(w, err)
-		return
-	}
-	defer resp.Body.Close()
-	bytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		respErr(w, err)
-		return
-	}
-	fmt.Fprint(w, string(bytes))
+	// url := fmt.Sprintf("https://api.vk.com/method/%s?v=5.81&access_token=%s&fields=%s", "users.get", token, scopeTemp)
+	// req, err := http.NewRequest("GET", url, nil)
+	// if err != nil {
+	// 	respErr(w, err)
+	// 	return
+	// }
+	// resp, err := client.Do(req)
+	// if err != nil {
+	// 	respErr(w, err)
+	// 	return
+	// }
+	// defer resp.Body.Close()
+	// bytes, err := ioutil.ReadAll(resp.Body)
+	// if err != nil {
+	// 	respErr(w, err)
+	// 	return
+	// }
+	// fmt.Fprint(w, string(bytes))
 }
 
 func respErr(w http.ResponseWriter, err error) {
