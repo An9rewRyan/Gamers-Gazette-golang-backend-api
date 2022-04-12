@@ -65,7 +65,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		respErr(w, err)
 		return
 	}
-	resp, err = http.DefaultClient.Do(req)
+	resp, err = client.Do(req)
 	if err != nil {
 		respErr(w, err)
 		return
