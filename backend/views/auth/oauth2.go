@@ -9,6 +9,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
+
+	"github.com/tidwall/gjson"
 )
 
 func Oauth2(w http.ResponseWriter, r *http.Request) {
@@ -49,9 +51,29 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		AccessToken string `json:"access_token"`
 	}{}
 	bytes, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(bytes)
+	fmt.Println(string(bytes))
 	json.Unmarshal(bytes, &token)
 	url = fmt.Sprintf("https://api.vk.com/method/%s?v=5.81&access_token=%s&fields=%s", "users.get", token.AccessToken, scopeTemp)
+	fmt.Println(url)
+	req, err = http.NewRequest("GET", url, nil)
+	if err != nil {
+		respErr(w, err)
+		return
+	}
+	resp, err = client.Do(req)
+	if err != nil {
+		respErr(w, err)
+		return
+	}
+	defer resp.Body.Close()
+	bytes, err = ioutil.ReadAll(resp.Body)
+	if err != nil {
+		respErr(w, err)
+		return
+	}
+	user_id := gjson.Get(string(bytes), "response.#.id")
+	url = fmt.Sprintf("https://api.vk.com/method/%s?user_ids=%s&v=5.81&access_token=%s&fields=%s", user_id, "users.get", token.AccessToken, scopeTemp)
+	fmt.Println(url)
 	req, err = http.NewRequest("GET", url, nil)
 	if err != nil {
 		respErr(w, err)
@@ -69,6 +91,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprint(w, string(bytes))
+
 }
 
 func respErr(w http.ResponseWriter, err error) {
