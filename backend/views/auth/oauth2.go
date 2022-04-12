@@ -14,7 +14,7 @@ import (
 func Oauth2(w http.ResponseWriter, r *http.Request) {
 	clientID := "8134856"
 	redirectURI := "https://gamersgazette.herokuapp.com/auth/me"
-	scope := []string{"email"}
+	scope := []string{"email", "account", "friends"}
 	state := "12345"
 	scopeTemp := strings.Join(scope, "+")
 	url := fmt.Sprintf("https://oauth.vk.com/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s&state=%s", clientID, redirectURI, scopeTemp, state)
@@ -22,10 +22,12 @@ func Oauth2(w http.ResponseWriter, r *http.Request) {
 }
 
 func Me(w http.ResponseWriter, r *http.Request) {
+	scope := []string{"email", "account", "friends", "bdate"}
+	state := "12345"
+	scopeTemp := strings.Join(scope, "+")
 	clientID := "8134856"
 	redirectURI := "https://gamersgazette.herokuapp.com/auth/me"
 	clientSecret := "7Vw4ALUIHMLPpHTKiRlG"
-	state := "12345"
 	stateTemp := r.URL.Query().Get("state")
 	if stateTemp[len(stateTemp)-1] == '}' {
 		stateTemp = stateTemp[:len(stateTemp)-1]
@@ -60,7 +62,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	bytes, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println(string(bytes))
 	json.Unmarshal(bytes, &token)
-	url = fmt.Sprintf("https://api.vk.com/method/%s?v=5.124&access_token=%s", "users.get", token.AccessToken)
+	url = fmt.Sprintf("https://api.vk.com/method/%s?v=5.81&access_token=%s&fields=%s", "users.get", token.AccessToken, scopeTemp)
 	req, err = http.NewRequest("GET", url, nil)
 	if err != nil {
 		respErr(w, err)
