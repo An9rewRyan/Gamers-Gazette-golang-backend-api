@@ -25,8 +25,8 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	redirectURI := "https://gamersgazette.herokuapp.com/auth/me"
 	clientID := "8134856"
 	clientSecret := "7Vw4ALUIHMLPpHTKiRlG"
-	scope := []string{"account", "email", "bdate"}
-	scopeTemp := strings.Join(scope, "+")
+	// scope := []string{"account", "email", "bdate"}
+	// scopeTemp := strings.Join(scope, "+")
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
