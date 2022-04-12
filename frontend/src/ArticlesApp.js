@@ -34,15 +34,18 @@ class ArticlesApp extends React.Component {
       <div className = "App">
           <h1> Fetch data from an api in react </h1>  {
               items.map((item) => ( 
+            <div class = "details_content">
+            <div class = "post">
               <ol key = { item.article_id } >
-                  Title: { item.title }, 
-                  Pub_date: { item.pub_date },
-                  Image_url: {item.image_url},
-                  Content: { item.content }, 
-                  Src_link: {item.src_link},
-                  Site_alias: {item.site_alias}
-                  <br></br>
-                  </ol>
+              <h2 class = "post_title">{ item.title }</h2>
+              <div> {item.site_alias} </div>
+              <div class = "date_time"> { item.pub_date }</div>
+              <div>Image url: {item.image_url}</div>
+              <div><br></br>{ item.content }<a href={item.src_link}>Source link</a></div>
+              <br></br>
+                </ol>
+            </div>
+            </div>
               ))
           }
       </div>
