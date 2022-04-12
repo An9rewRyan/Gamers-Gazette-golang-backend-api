@@ -65,9 +65,11 @@ func main() {
 	})
 	router := mux.NewRouter()
 	api := router.PathPrefix("/api/v1/").Subrouter()
-	auth := router.PathPrefix("/auth/").Subrouter()
+	basic_auth := router.PathPrefix("/auth/").Subrouter()
+	soc_auth := router.PathPrefix("/socialauth/").Subrouter()
 	routers.Route_api(api)
-	routers.Route_auth(auth)
+	routers.Route_auth_basic(basic_auth)
+	routers.Route_auth_social(soc_auth)
 	spa := spaHandler{staticPath: "../web", indexPath: "index.html"}
 	router.PathPrefix("/").Handler(spa)
 
@@ -84,6 +86,5 @@ func main() {
 		Handler: handler,
 	}
 
-	// database.Create_test_articles()
 	server.ListenAndServe()
 }

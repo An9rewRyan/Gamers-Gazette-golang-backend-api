@@ -1,32 +1,26 @@
 package routers
 
 import (
-	"d/go/views/auth"
+	"d/go/views/basic_auth"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-func Route_auth(mux *mux.Router) {
+func Route_auth_basic(mux *mux.Router) {
 	mux.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
-		auth.Signin(w, r)
+		basic_auth.Signin(w, r)
 	})
 	mux.HandleFunc("/signup", func(w http.ResponseWriter, r *http.Request) {
-		auth.Signup(w, r)
+		basic_auth.Signup(w, r)
 	})
-	// mux.HandleFunc("/welcome", func(w http.ResponseWriter, r *http.Request) {
-	// 	auth.Welcome(w, r)
-	// })
 	mux.HandleFunc("/refresh", func(w http.ResponseWriter, r *http.Request) {
-		auth.Refresh(w, r)
+		basic_auth.Refresh(w, r)
 	})
 	mux.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
-		auth.Logout(w, r)
+		basic_auth.Logout(w, r)
 	})
 	mux.HandleFunc("/me", func(w http.ResponseWriter, r *http.Request) {
-		auth.Me(w, r)
-	})
-	mux.HandleFunc("/oauth2_test", func(w http.ResponseWriter, r *http.Request) {
-		auth.Oauth2(w, r)
+		basic_auth.Me(w, r)
 	})
 }
