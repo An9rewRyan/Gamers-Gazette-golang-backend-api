@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -41,9 +42,13 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		respErr(w, fmt.Errorf("code query param is not provided"))
 		return
 	}
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	client := &http.Client{Transport: tr}
 	url := fmt.Sprintf("https://oauth.vk.com/access_token?grant_type=authorization_code&code=%s&redirect_uri=%s&client_id=%s&client_secret=%s", code, redirectURI, clientID, clientSecret)
 	req, _ := http.NewRequest("POST", url, nil)
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		respErr(w, err)
 		return
