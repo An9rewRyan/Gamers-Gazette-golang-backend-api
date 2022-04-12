@@ -14,7 +14,7 @@ import (
 func Oauth2(w http.ResponseWriter, r *http.Request) {
 	clientID := "8134856"
 	redirectURI := "https://gamersgazette.herokuapp.com/auth/me"
-	scope := []string{"account", "email"}
+	scope := []string{"email"}
 	state := "12345"
 	scopeTemp := strings.Join(scope, "+")
 	url := fmt.Sprintf("https://oauth.vk.com/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s&state=%s", clientID, redirectURI, scopeTemp, state)
