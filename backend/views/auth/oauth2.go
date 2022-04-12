@@ -58,6 +58,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		AccessToken string `json:"access_token"`
 	}{}
 	bytes, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(bytes))
 	json.Unmarshal(bytes, &token)
 	url = fmt.Sprintf("https://api.vk.com/method/%s?v=5.124&access_token=%s", "users.get", token.AccessToken)
 	req, err = http.NewRequest("GET", url, nil)
