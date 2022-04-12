@@ -46,15 +46,9 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer resp.Body.Close()
-	// token := struct {
-	// 	AccessToken string `json:"access_token"`
-	// }{}
 	bytes, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(gjson.Get(string(bytes), "user_id"), gjson.Get(string(bytes), "bdate"), gjson.Get(string(bytes), "email"))
 	fmt.Fprint(w, string(bytes))
-	// fmt.Println(string(bytes), gjson.Get(string(bytes), "response.#.id"), gjson.Get(string(bytes), "response.#.bdate"), gjson.Get(string(bytes), "response.#.email"))
-	// json.Unmarshal(bytes, &token)
-	url = fmt.Sprintf("https://api.vk.com/method/users.get?&access_token=%s&fields=%s&user_ids=%s&v=5.81", gjson.Get(string(bytes), "access_tocken"), scopeTemp, gjson.Get(string(bytes), "user_id"))
+	url = fmt.Sprintf("https://api.vk.com/method/users.get?&access_token=%s&fields=%s&user_ids=%s&v=5.81", gjson.Get(string(bytes), "access_token"), scopeTemp, gjson.Get(string(bytes), "user_id"))
 	fmt.Println(url)
 	req, err = http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -74,27 +68,6 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println(bytes)
 	fmt.Fprint(w, string(bytes))
-	// user_id := gjson.Get(string(bytes), "response.#.id")
-	// url = fmt.Sprintf("https://api.vk.com/method/%s?user_ids=%s&v=5.81&access_token=%s&fields=%s", user_id, "users.get", token.AccessToken, scopeTemp)
-	// fmt.Println(url)
-	// req, err = http.NewRequest("GET", url, nil)
-	// if err != nil {
-	// 	respErr(w, err)
-	// 	return
-	// }
-	// resp, err = client.Do(req)
-	// if err != nil {
-	// 	respErr(w, err)
-	// 	return
-	// }
-	// defer resp.Body.Close()
-	// bytes, err = ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	respErr(w, err)
-	// 	return
-	// }
-	// fmt.Fprint(w, string(bytes))
-
 }
 
 func respErr(w http.ResponseWriter, err error) {
