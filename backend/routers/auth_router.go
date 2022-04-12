@@ -23,4 +23,10 @@ func Route_auth(mux *mux.Router) {
 	mux.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		auth.Logout(w, r)
 	})
+	mux.HandleFunc("/me", func(w http.ResponseWriter, r *http.Request) {
+		auth.Me(w, r)
+	})
+	mux.HandleFunc("/oauth2_test", func(w http.ResponseWriter, r *http.Request) {
+		auth.Oauth2(w, r)
+	})
 }
