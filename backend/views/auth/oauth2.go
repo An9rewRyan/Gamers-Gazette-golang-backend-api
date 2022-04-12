@@ -50,7 +50,8 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	// 	AccessToken string `json:"access_token"`
 	// }{}
 	bytes, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(bytes), gjson.Get(string(bytes), "response.#.id"), gjson.Get(string(bytes), "response.#.bdate"), gjson.Get(string(bytes), "response.#.email"))
+	fmt.Println(gjson.Get(string(bytes), "response.#.id"), gjson.Get(string(bytes), "response.#.bdate"), gjson.Get(string(bytes), "response.#.email"))
+	fmt.Fprint(w, string(bytes))
 	// fmt.Println(string(bytes), gjson.Get(string(bytes), "response.#.id"), gjson.Get(string(bytes), "response.#.bdate"), gjson.Get(string(bytes), "response.#.email"))
 	// json.Unmarshal(bytes, &token)
 	// url = fmt.Sprintf("https://api.vk.com/method/%s?v=5.81&access_token=%s&fields=%s", "users.get", token.AccessToken, scopeTemp)
