@@ -25,18 +25,20 @@ var scopeTemp = strings.Join(scope, "+")
 var clientSecret = "7Vw4ALUIHMLPpHTKiRlG"
 
 func Vk_redir(w http.ResponseWriter, r *http.Request) {
-	url := fmt.Sprintf("https://oauth.vk.com/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s", clientID, redirectURI, scopeTemp)
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		respErr(w, err)
-		return
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		respErr(w, err)
-		return
-	}
-	defer resp.Body.Close()
+	newUrl := fmt.Sprintf("https://oauth.vk.com/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s", clientID, redirectURI, scopeTemp)
+	fmt.Println(newUrl)
+	http.Redirect(w, r, newUrl, http.StatusSeeOther)
+	// req, err := http.NewRequest("GET", url, nil)
+	// if err != nil {
+	// 	respErr(w, err)
+	// 	return
+	// }
+	// _, err = client.Do(req)
+	// if err != nil {
+	// 	respErr(w, err)
+	// 	return
+	// }
+	// defer resp.Body.Close()
 }
 
 func Vk_get_data(w http.ResponseWriter, r *http.Request) {
