@@ -14,7 +14,7 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-var redirectURI = "https://gamersgazette.herokuapp.com/socialauth/vk/me"
+var redirectURI = "https://api-gamersgazette.herokuapp.com/socialauth/vk/me"
 var clientID = "8134856"
 var tr = &http.Transport{
 	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -74,6 +74,8 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	fmt.Fprint(w, string(b))
+	newUrl := "https://gamersgazette.herokuapp.com/signup/finish"
+	http.Redirect(w, r, newUrl, http.StatusSeeOther)
 }
 
 func respErr(w http.ResponseWriter, err error) {
