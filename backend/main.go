@@ -14,7 +14,7 @@ func main() {
 	//uncomment on first launch and comment after sucess
 	// database.Create_basic_tables()
 	cors := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedOrigins:   []string{"https://gamersgazette.herokuapp.com/"},
 		AllowCredentials: true,
 	})
 	router := mux.NewRouter()
