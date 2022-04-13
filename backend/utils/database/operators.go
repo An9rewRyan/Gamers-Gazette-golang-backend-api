@@ -16,6 +16,7 @@ func Connect_db() (*pgxpool.Pool, error) {
 	dbpool, err := pgxpool.Connect(context.Background(), config.Db_conn_str)
 	if err != nil {
 		fmt.Println("failed to connect database")
+		fmt.Println("Error is", err)
 		err = errors.New_db_connection_error("failed to connect database")
 	} else {
 		fmt.Println("Db connected sucessfully")

@@ -14,6 +14,7 @@ func ApiArticleGet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	article, err := database.Select_article(vars["id"])
 	if err != nil {
+		fmt.Println(err)
 		data := map[string]string{
 			"Articles": "404! No article with such id is found!",
 		}

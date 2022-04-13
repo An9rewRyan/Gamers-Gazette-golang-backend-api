@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -53,12 +52,6 @@ import (
 func main() {
 	//uncomment on first launch and comment after sucess
 	// database.Create_basic_tables()
-	ex, err := os.Executable()
-	if err != nil {
-		panic(err)
-	}
-	exPath := filepath.Dir(ex)
-	fmt.Println("Path to exec: ", exPath)
 	cors := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost:3000"},
 		// AllowedOrigins:   []string{"http://localhost:3000"},
@@ -79,7 +72,7 @@ func main() {
 	handler := cors.Handler(router)
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "3000"
+		port = "8000"
 	}
 	fmt.Println("Port: ", port)
 	server := http.Server{
