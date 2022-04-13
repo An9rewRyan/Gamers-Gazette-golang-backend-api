@@ -15,6 +15,8 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	// Parse and decode the request body into a new `Credentials` instance
 	creds := &structs.Credentials{}
 	err := json.NewDecoder(r.Body).Decode(creds)
+	fmt.Println(r.Body)
+	fmt.Println(creds)
 	if err != nil {
 		// If there is something wrong with the request body, return a 400 status
 		w.WriteHeader(http.StatusBadRequest)
