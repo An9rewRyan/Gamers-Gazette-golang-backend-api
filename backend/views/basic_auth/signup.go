@@ -35,7 +35,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// Next, insert the username, along with the hashed password into the database
-	if _, err = db.Query(context.Background(), "insert into users values ($1, $2, 'admin', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
+	if _, err = db.Query(context.Background(), "insert into users values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
 		// If there is any issue with inserting into the database, return a 500 error
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println("Failed to add user, ")
