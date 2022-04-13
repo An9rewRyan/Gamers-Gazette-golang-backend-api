@@ -9,9 +9,11 @@ import (
 
 func Route_api(mux *mux.Router) {
 	mux.HandleFunc("/articles/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		api.ApiArticles(w, r)
 	})
 	mux.HandleFunc("/articles/{id}/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		api.ApiArticleGet(w, r)
 	})
 	mux.HandleFunc("/articles/{id}/delete/", func(w http.ResponseWriter, r *http.Request) {
