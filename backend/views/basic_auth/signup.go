@@ -38,5 +38,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+	fmt.Fprintf(w, "Sucessfully signed up!")
 	// We reach this point if the credentials we correctly stored in the database, and the default status of 200 is sent back
 }
