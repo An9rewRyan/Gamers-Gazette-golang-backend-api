@@ -1,11 +1,11 @@
-FROM node:latest AS node_builder
-WORKDIR "/frontend"
-RUN ls
-ADD frontend .
-RUN ls
-RUN npm install
-RUN npm run build
-RUN ls
+# FROM node:latest AS node_builder
+# WORKDIR "/frontend"
+# RUN ls
+# ADD frontend .
+# RUN ls
+# RUN npm install
+# RUN npm run build
+# RUN ls
 # npm install -g serve
 
 # Build the Go API
@@ -25,8 +25,8 @@ WORKDIR "/main"
 # RUN apk --no-cache add ca-certificates
 COPY --from=builder "/backend" ./backend
 RUN ls
-COPY --from=node_builder "frontend/build" ./web
-RUN ls
+# COPY --from=node_builder "frontend/build" ./web
+# RUN ls
 # RUN apt-get update
 # RUN apt-get install -y supervisor
 # ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf 
