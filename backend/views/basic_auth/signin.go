@@ -60,6 +60,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		Expiry:   expiresAt,
 		Role:     storedCreds.Role,
 		Email:    storedCreds.Email,
+		Bdate:    storedCreds.Bdate,
 	}
 
 	// Finally, we set the client cookie for "session_token" as the session token we just generated

@@ -5,4 +5,5 @@ type Credentials struct {
 	Username string `json:"username", db:"username"`
 	Role     string `json:"role", db:"role"`
 	Email    string `json:"email", db:"email"`
+	Bdate    string `json:"bdate", db:"bdate"`
 }
