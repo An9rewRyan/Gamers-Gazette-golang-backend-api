@@ -55,6 +55,8 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Failed to add user, ")
 		fmt.Println(err)
 		return
+	} else {
+		fmt.Println("Sucessfully added user!")
 	}
 
 	signin_link := "https://api-gamersgazette.herokuapp.com/auth/signin"
