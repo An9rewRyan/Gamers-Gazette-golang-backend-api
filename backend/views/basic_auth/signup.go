@@ -1,20 +1,34 @@
 package basic_auth
 
 import (
+	"bytes"
 	"context"
+	"crypto/tls"
+	"d/go/errors"
 	"d/go/structs"
 	"d/go/utils/database"
 	"encoding/json"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
 )
 
+var tr = &http.Transport{
+	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+}
+var client = &http.Client{Transport: tr}
+
 func Signup(w http.ResponseWriter, r *http.Request) {
 	// Parse and decode the request body into a new `Credentials` instance
+	bodyBytes, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
 	creds := &structs.Credentials{}
-	err := json.NewDecoder(r.Body).Decode(creds)
+	err = json.NewDecoder(r.Body).Decode(creds)
 	fmt.Println(r.Body)
 	fmt.Println(creds)
 	if err != nil {
@@ -42,7 +56,16 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("Sucessfully signed up!")
-	fmt.Fprintf(w, "Sucessfully signed up!")
-	// We reach this point if the credentials we correctly stored in the database, and the default status of 200 is sent back
+
+	signin_link := "https://api-gamersgazette.herokuapp.com/auth/signin"
+	req, _ := http.NewRequest("POST", signin_link, bytes.NewBuffer(bodyBytes))
+	_, err = client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		errors.RespErr(w, err)
+		return
+	} else {
+		fmt.Println("Sucessfully signed up!")
+		fmt.Fprint(w, "Sucessfully signed up!")
+	}
 }

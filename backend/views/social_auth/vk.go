@@ -2,12 +2,11 @@ package social_auth
 
 import (
 	"crypto/tls"
+	"d/go/errors"
 	"d/go/structs"
 	"encoding/json"
 	"fmt"
-	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"strings"
 
@@ -33,7 +32,7 @@ func Vk_redir(w http.ResponseWriter, r *http.Request) {
 func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	if code == "" {
-		respErr(w, fmt.Errorf("code query param is not provided"))
+		errors.RespErr(w, fmt.Errorf("code query param is not provided"))
 		return
 	}
 	fmt.Println(code, r.URL.RequestURI())
@@ -41,7 +40,7 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	req, _ := http.NewRequest("POST", url, nil)
 	resp, err := client.Do(req)
 	if err != nil {
-		respErr(w, err)
+		errors.RespErr(w, err)
 		return
 	}
 	defer resp.Body.Close()
@@ -50,18 +49,18 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	url = fmt.Sprintf("https://api.vk.com/method/users.get?access_token=%s&fields=bdate&user_id=%s&v=5.131", gjson.Get(string(bytes), "access_token"), gjson.Get(string(bytes), "user_id"))
 	req, err = http.NewRequest("GET", url, nil)
 	if err != nil {
-		respErr(w, err)
+		errors.RespErr(w, err)
 		return
 	}
 	resp, err = client.Do(req)
 	if err != nil {
-		respErr(w, err)
+		errors.RespErr(w, err)
 		return
 	}
 	defer resp.Body.Close()
 	bytes, err = ioutil.ReadAll(resp.Body)
 	if err != nil {
-		respErr(w, err)
+		errors.RespErr(w, err)
 		return
 	}
 	user := structs.Soc_auth_data{
@@ -76,11 +75,4 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, string(b))
 	newUrl := "https://gamersgazette.herokuapp.com/signup/finish"
 	http.Redirect(w, r, newUrl, http.StatusSeeOther)
-}
-
-func respErr(w http.ResponseWriter, err error) {
-	_, er := io.WriteString(w, err.Error())
-	if er != nil {
-		log.Println(err)
-	}
 }
