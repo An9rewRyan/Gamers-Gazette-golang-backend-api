@@ -27,15 +27,17 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(string(bodyBytes))
-	creds := &structs.Credentials{}
-	err = json.NewDecoder(r.Body).Decode(creds)
+	fmt.Println("Got signup req: " + string(bodyBytes))
+	creds := structs.Credentials{}
+	err = json.Unmarshal(bodyBytes, &creds)
+	// err = json.NewDecoder(r.Body).Decode(creds)
 	if err != nil {
 		// If there is something wrong with the request body, return a 400 status
 		fmt.Println("Decode error!")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	fmt.Println("Creds: ")
 	fmt.Println(creds)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
 	if err != nil {
