@@ -27,6 +27,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println(string(bodyBytes))
 	creds := &structs.Credentials{}
 	err = json.NewDecoder(r.Body).Decode(creds)
 	fmt.Println(r.Body)
@@ -63,7 +64,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	req, _ := http.NewRequest("POST", signin_link, bytes.NewBuffer(bodyBytes))
 	_, err = client.Do(req)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Error while sending post:", err)
 		errors.RespErr(w, err)
 		return
 	} else {

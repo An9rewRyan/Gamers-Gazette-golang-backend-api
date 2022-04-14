@@ -7,6 +7,8 @@ import (
 	"d/go/utils/session"
 	"encoding/json"
 	"fmt"
+	"io"
+	"log"
 	"net/http"
 	"time"
 
@@ -16,9 +18,14 @@ import (
 )
 
 func Signin(w http.ResponseWriter, r *http.Request) {
+	bodyBytes, err := io.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(bodyBytes))
 	db, err := database.Connect_db()
 	if err != nil {
-		fmt.Println()
+		fmt.Println("err")
 		return
 	}
 	var creds structs.Credentials
