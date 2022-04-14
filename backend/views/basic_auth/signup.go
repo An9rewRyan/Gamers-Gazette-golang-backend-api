@@ -22,23 +22,17 @@ var tr = &http.Transport{
 var client = &http.Client{Transport: tr}
 
 func Signup(w http.ResponseWriter, r *http.Request) {
-	// Parse and decode the request body into a new `Credentials` instance
 	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Got signup req: " + string(bodyBytes))
 	creds := structs.Credentials{}
 	err = json.Unmarshal(bodyBytes, &creds)
-	// err = json.NewDecoder(r.Body).Decode(creds)
 	if err != nil {
-		// If there is something wrong with the request body, return a 400 status
 		fmt.Println("Decode error!")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Println("Creds: ")
-	fmt.Println(creds)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
 	if err != nil {
 		fmt.Println(err)
@@ -49,9 +43,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	// Next, insert the username, along with the hashed password into the database
 	if _, err = db.Query(context.Background(), "insert into users values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
-		// If there is any issue with inserting into the database, return a 500 error
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println("Failed to add user, ")
 		fmt.Println(err)
