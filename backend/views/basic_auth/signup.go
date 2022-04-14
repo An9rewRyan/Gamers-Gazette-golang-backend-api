@@ -30,15 +30,13 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(string(bodyBytes))
 	creds := &structs.Credentials{}
 	err = json.NewDecoder(r.Body).Decode(creds)
-	fmt.Println(r.Body)
-	fmt.Println(creds)
 	if err != nil {
 		// If there is something wrong with the request body, return a 400 status
+		fmt.Println("Decode error!")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	// Salt and hash the password using the bcrypt algorithm
-	// The second argument is the cost of hashing, which we arbitrarily set as 8 (this value can be more or less, depending on the computing power you wish to utilize)
+	fmt.Println(creds)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
 	if err != nil {
 		fmt.Println(err)
