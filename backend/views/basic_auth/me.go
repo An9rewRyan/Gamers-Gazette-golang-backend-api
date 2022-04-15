@@ -28,6 +28,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sessionToken := cookie.Session_token
+	fmt.Println(sessionToken)
 
 	// We then get the session from our session map
 	userSession, exists := session.Sessions[sessionToken]
