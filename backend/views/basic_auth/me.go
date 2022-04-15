@@ -17,7 +17,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(string(bodyBytes))
 	fmt.Println(session.Sessions)
 	type Cookie struct {
-		Session_token string `json:"session_token"`
+		Session_token string `json:"session_cookie"`
 	}
 	var cookie Cookie
 	err = json.Unmarshal(bodyBytes, &cookie)
@@ -48,5 +48,5 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// If the session is valid, return the welcome message to the user
-	w.Write([]byte(fmt.Sprintf("Welcome %s!", userSession.Username)))
+	// w.Write([]byte(fmt.Sprintf("Welcome %s!", userSession.Username)))
 }
