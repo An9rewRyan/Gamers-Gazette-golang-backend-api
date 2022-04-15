@@ -15,7 +15,10 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println(string(bodyBytes))
-	cookie := http.Cookie{}
+	type Cookie struct {
+		Session_token string `json:"session_token"`
+	}
+	var cookie Cookie
 	err = json.Unmarshal(bodyBytes, &cookie)
 	if err != nil {
 		fmt.Println("Decode error!")
@@ -23,7 +26,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sessionToken := cookie.Value
+	sessionToken := cookie.Session_token
 
 	// We then get the session from our session map
 	userSession, exists := session.Sessions[sessionToken]
