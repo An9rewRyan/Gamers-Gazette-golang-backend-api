@@ -71,6 +71,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		Email:    storedCreds.Email,
 		Bdate:    storedCreds.Bdate,
 	}
+	fmt.Println(session.Sessions)
 
 	cookie := http.Cookie{
 		Name:    "session_token",
