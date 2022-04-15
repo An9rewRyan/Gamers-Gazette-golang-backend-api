@@ -2,25 +2,27 @@ package basic_auth
 
 import (
 	"d/go/utils/session"
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
 func Me(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(session.Sessions)
-	c, err := r.Cookie("session_token")
+	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
-		if err == http.ErrNoCookie {
-			// If the cookie is not set, return an unauthorized status
-			fmt.Println("No cookie found!")
-			w.WriteHeader(http.StatusUnauthorized)
-			return
-		}
-		// For any other type of error, return a bad request status
+		fmt.Println(err)
+		return
+	}
+	cookie := http.Cookie{}
+	err = json.Unmarshal(bodyBytes, &cookie)
+	if err != nil {
+		fmt.Println("Decode error!")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	sessionToken := c.Value
+
+	sessionToken := cookie.Value
 
 	// We then get the session from our session map
 	userSession, exists := session.Sessions[sessionToken]
