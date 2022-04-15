@@ -7,10 +7,12 @@ import (
 )
 
 func Me(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(session.Sessions)
 	c, err := r.Cookie("session_token")
 	if err != nil {
 		if err == http.ErrNoCookie {
 			// If the cookie is not set, return an unauthorized status
+			fmt.Println("No cookie found!")
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
