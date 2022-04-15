@@ -72,18 +72,12 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		Bdate:    storedCreds.Bdate,
 	}
 
-	// err = json.Unmarshal(bodyBytes, &creds)
-	// if err != nil {
-	// 	fmt.Println("Decode error!")
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	return
-	// }
-
-	cookie := &http.Cookie{
+	cookie := http.Cookie{
 		Name:    "session_token",
 		Value:   sessionToken,
 		Expires: expiresAt,
 	}
+	fmt.Println(cookie)
 
 	b, err := json.Marshal(&cookie)
 	if err != nil {
