@@ -14,6 +14,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
+	fmt.Println(string(bodyBytes))
 	cookie := http.Cookie{}
 	err = json.Unmarshal(bodyBytes, &cookie)
 	if err != nil {
