@@ -31,9 +31,9 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	var creds structs.Credentials
 	storedCreds := &structs.Credentials{}
 	// Get the JSON body and decode into credentials
-	err = json.NewDecoder(r.Body).Decode(&creds)
+	err = json.Unmarshal(bodyBytes, &creds)
 	if err != nil {
-		// If the structure of the body is wrong, return an HTTP error
+		fmt.Println("Decode error!")
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -44,6 +44,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		// If an entry with the username does not exist, send an "Unauthorized"(401) status
 		if err == pgx.ErrNoRows {
+			fmt.Println("User not exist!")
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
@@ -54,6 +55,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 
 	if err = bcrypt.CompareHashAndPassword([]byte(storedCreds.Password), []byte(creds.Password)); err != nil {
 		// If the two passwords don't match, return a 401 status
+		fmt.Println("PAssword dont match!!")
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
