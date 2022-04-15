@@ -71,7 +71,26 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		Email:    storedCreds.Email,
 		Bdate:    storedCreds.Bdate,
 	}
-	fmt.Fprintf(w, "{token: "+sessionToken+"}")
+
+	// err = json.Unmarshal(bodyBytes, &creds)
+	// if err != nil {
+	// 	fmt.Println("Decode error!")
+	// 	w.WriteHeader(http.StatusBadRequest)
+	// 	return
+	// }
+
+	cookie := &http.Cookie{
+		Name:    "session_token",
+		Value:   sessionToken,
+		Expires: expiresAt,
+	}
+
+	b, err := json.Marshal(&cookie)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Fprint(w, string(b))
 
 	// Finally, we set the client cookie for "session_token" as the session token we just generated
 	// we also set an expiry time of 120 seconds
