@@ -54,12 +54,19 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 
 	signin_link := "https://api-gamersgazette.herokuapp.com/auth/signin"
 	req, _ := http.NewRequest("POST", signin_link, bytes.NewBuffer(bodyBytes))
-	_, err = client.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error while sending post:", err)
 		errors.RespErr(w, err)
 		return
 	} else {
+		bodyBytes, err := io.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println(err)
+			log.Fatal(err)
+		}
+		fmt.Println(string(bodyBytes), "Ola!")
+		fmt.Fprint(w, string(bodyBytes))
 		fmt.Println("Sucessfully signed up!")
 		fmt.Fprint(w, "Sucessfully signed up!")
 	}
