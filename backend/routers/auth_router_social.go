@@ -9,9 +9,11 @@ import (
 
 func Route_auth_social(mux *mux.Router) {
 	mux.HandleFunc("/vk", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		social_auth.Vk_redir(w, r)
 	})
 	mux.HandleFunc("/vk/me", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 		social_auth.Vk_get_data(w, r)
 	})
 }
