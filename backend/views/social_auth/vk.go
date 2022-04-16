@@ -37,8 +37,18 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(string(resp_bytes))
-	url_resp, err := url.ParseRequestURI(string(resp_bytes))
+	type url_response struct {
+		Url_with_code string `json:"url_with_code"`
+	}
+	resp_url := url_response{}
+	err = json.Unmarshal(resp_bytes, &resp_url)
+	if err != nil {
+		fmt.Println("Decode error!")
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	fmt.Println(resp_url.Url_with_code)
+	url_resp, err := url.ParseRequestURI(resp_url.Url_with_code)
 	if err != nil {
 		fmt.Println(err)
 		return
