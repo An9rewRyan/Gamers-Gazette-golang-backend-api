@@ -1,7 +1,6 @@
 package social_auth
 
 import (
-	"bytes"
 	"crypto/tls"
 	"d/go/errors"
 	"d/go/structs"
@@ -98,13 +97,5 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(string(b))
-	signin_link := "https://gamersgazette.herokuapp.com/signup/vk"
-	req, _ = http.NewRequest("POST", signin_link, bytes.NewBuffer(b))
-	_, err = client.Do(req)
-	if err != nil {
-		fmt.Println("Error while sending post:", err)
-		errors.RespErr(w, err)
-		return
-	}
+	fmt.Fprint(w, string(b))
 }
