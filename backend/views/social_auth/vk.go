@@ -98,6 +98,9 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	birthday = strings.Replace(birthday, "[\"", "", -1)
 	birthday = strings.Replace(birthday, "\"]", "", -1)
 
+	birthday_split := strings.Split(birthday, ".")
+	birthday = fmt.Sprintf("%s-%s-%s", birthday_split[2], birthday_split[1], birthday_split[0])
+
 	user := structs.Soc_auth_data{
 		Username:  username,
 		BirthDate: birthday,
