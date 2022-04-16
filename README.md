@@ -18,6 +18,7 @@
 **Other projects using this web platform:**
  - **[Golang game news parser](https://github.com/An9rewRyan/golang_game_news_parser)** 
  - **[Golang game prices parser](https://github.com/An9rewRyan/golang_games_prices_parser)** 
+- **[Frontend on react for this service](https://github.com/An9rewRyan/Gamers-Gazette-frontend-react)**
 
 ---
 
