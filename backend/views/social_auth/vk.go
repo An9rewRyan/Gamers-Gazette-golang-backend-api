@@ -88,11 +88,22 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println(string(resp_bytes))
+
+	username := gjson.Get(string(resp_bytes), "response.#.first_name").String()
+	birthday := gjson.Get(string(resp_bytes), "response.#.bdate").String()
+
+	username = strings.Replace(username, "[\"", "", -1)
+	username = strings.Replace(username, "\"]", "", -1)
+
+	birthday = strings.Replace(birthday, "[\"", "", -1)
+	birthday = strings.Replace(birthday, "\"]", "", -1)
+
 	user := structs.Soc_auth_data{
-		Username:  fmt.Sprintf("%s %s", gjson.Get(string(resp_bytes), "response.#.first_name").String(), gjson.Get(string(resp_bytes), "response.#.last_name").String()),
-		BirthDate: gjson.Get(string(resp_bytes), "response.#.bdate").String(),
+		Username:  username,
+		BirthDate: birthday,
 		Email:     email.String(),
 	}
+	fmt.Println(user)
 	b, err := json.Marshal(&user)
 	if err != nil {
 		fmt.Println(err)
