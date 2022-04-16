@@ -33,6 +33,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	fmt.Println(creds)
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
 	if err != nil {
 		fmt.Println(err)
