@@ -70,6 +70,7 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	defer resp.Body.Close()
 	resp_bytes, _ = ioutil.ReadAll(resp.Body)
 	email := gjson.Get(string(resp_bytes), "email")
+	fmt.Println(string(resp_bytes))
 	url = fmt.Sprintf("https://api.vk.com/method/users.get?access_token=%s&fields=bdate&user_id=%s&v=5.131", gjson.Get(string(resp_bytes), "access_token"), gjson.Get(string(resp_bytes), "user_id"))
 	req, err = http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -87,6 +88,7 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 		errors.RespErr(w, err)
 		return
 	}
+	fmt.Println(string(resp_bytes))
 	user := structs.Soc_auth_data{
 		Username:  fmt.Sprintf("%s %s", gjson.Get(string(resp_bytes), "response.#.first_name").String(), gjson.Get(string(resp_bytes), "response.#.last_name").String()),
 		BirthDate: gjson.Get(string(resp_bytes), "response.#.bdate").String(),
@@ -96,6 +98,7 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println(string(b))
 	signin_link := "https://gamersgazette.herokuapp.com/signup/vk"
 	req, _ = http.NewRequest("POST", signin_link, bytes.NewBuffer(b))
 	_, err = client.Do(req)
