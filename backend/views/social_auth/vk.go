@@ -1,6 +1,7 @@
 package social_auth
 
 import (
+	"bytes"
 	"crypto/tls"
 	"d/go/errors"
 	"d/go/structs"
@@ -8,12 +9,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/tidwall/gjson"
 )
 
-var redirectURI = "https://api-gamersgazette.herokuapp.com/socialauth/vk/me"
+var redirectURI = "https://gamersgazette.herokuapp.com/signup/vk"
 var clientID = "8134856"
 var tr = &http.Transport{
 	TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -30,7 +32,19 @@ func Vk_redir(w http.ResponseWriter, r *http.Request) {
 }
 
 func Vk_get_data(w http.ResponseWriter, r *http.Request) {
-	code := r.URL.Query().Get("code")
+	resp_bytes, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(string(resp_bytes))
+	url_resp, err := url.ParseRequestURI(string(resp_bytes))
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	code := url_resp.Query().Get("code")
 	if code == "" {
 		errors.RespErr(w, fmt.Errorf("code query param is not provided"))
 		return
@@ -44,9 +58,9 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer resp.Body.Close()
-	bytes, _ := ioutil.ReadAll(resp.Body)
-	email := gjson.Get(string(bytes), "email")
-	url = fmt.Sprintf("https://api.vk.com/method/users.get?access_token=%s&fields=bdate&user_id=%s&v=5.131", gjson.Get(string(bytes), "access_token"), gjson.Get(string(bytes), "user_id"))
+	resp_bytes, _ = ioutil.ReadAll(resp.Body)
+	email := gjson.Get(string(resp_bytes), "email")
+	url = fmt.Sprintf("https://api.vk.com/method/users.get?access_token=%s&fields=bdate&user_id=%s&v=5.131", gjson.Get(string(resp_bytes), "access_token"), gjson.Get(string(resp_bytes), "user_id"))
 	req, err = http.NewRequest("GET", url, nil)
 	if err != nil {
 		errors.RespErr(w, err)
@@ -58,21 +72,26 @@ func Vk_get_data(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer resp.Body.Close()
-	bytes, err = ioutil.ReadAll(resp.Body)
+	resp_bytes, err = ioutil.ReadAll(resp.Body)
 	if err != nil {
 		errors.RespErr(w, err)
 		return
 	}
 	user := structs.Soc_auth_data{
-		Username:  fmt.Sprintf("%s %s", gjson.Get(string(bytes), "response.#.first_name").String(), gjson.Get(string(bytes), "response.#.last_name").String()),
-		BirthDate: gjson.Get(string(bytes), "response.#.bdate").String(),
+		Username:  fmt.Sprintf("%s %s", gjson.Get(string(resp_bytes), "response.#.first_name").String(), gjson.Get(string(resp_bytes), "response.#.last_name").String()),
+		BirthDate: gjson.Get(string(resp_bytes), "response.#.bdate").String(),
 		Email:     email.String(),
 	}
 	b, err := json.Marshal(&user)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Fprint(w, string(b))
-	newUrl := "https://gamersgazette.herokuapp.com/signup/finish"
-	http.Redirect(w, r, newUrl, http.StatusSeeOther)
+	signin_link := "https://gamersgazette.herokuapp.com/signup/vk"
+	req, _ = http.NewRequest("POST", signin_link, bytes.NewBuffer(b))
+	_, err = client.Do(req)
+	if err != nil {
+		fmt.Println("Error while sending post:", err)
+		errors.RespErr(w, err)
+		return
+	}
 }
