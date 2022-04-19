@@ -71,5 +71,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(string(bodyBytes), "Ola!")
 		fmt.Fprint(w, string(bodyBytes))
 		fmt.Println("Sucessfully signed up!")
+		return
 	}
 }
