@@ -44,9 +44,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	defer db.Close()
-	_, err = db.Query(context.Background(), "insert into users values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate)
-	if err != nil {
+	if _, err = db.Query(context.Background(), "insert into users values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println("Failed to add user, ")
 		fmt.Println(err)
@@ -71,6 +69,5 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(string(bodyBytes), "Ola!")
 		fmt.Fprint(w, string(bodyBytes))
 		fmt.Println("Sucessfully signed up!")
-		return
 	}
 }
