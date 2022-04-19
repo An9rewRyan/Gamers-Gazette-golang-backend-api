@@ -7,3 +7,8 @@ type Credentials struct {
 	Email    string `json:"email", db:"email"`
 	Bdate    string `json:"bdate", db:"bdate"`
 }
+
+type CredentialsSignIn struct {
+	Password string `json:"password", db:"password"`
+	Username string `json:"username", db:"username"`
+}

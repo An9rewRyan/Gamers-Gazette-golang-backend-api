@@ -87,31 +87,4 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprint(w, string(b))
-
-	// Finally, we set the client cookie for "session_token" as the session token we just generated
-	// we also set an expiry time of 120 seconds
-
-	// cookie := &http.Cookie{
-	// 	Domain:  "gamersgazette.herokuapp.com",
-	// 	Name:    "session_token",
-	// 	Value:   sessionToken,
-	// 	Expires: expiresAt,
-	// }
-
-	// http.SetCookie(w, cookie)
-	// c, err := r.Cookie("session_token")
-	// if err != nil {
-	// 	if err == http.ErrNoCookie {
-	// 		// If the cookie is not set, return an unauthorized status
-	// 		fmt.Println("No cookie found!")
-	// 		// w.WriteHeader(http.StatusUnauthorized)
-	// 		// return
-	// 	}
-	// 	fmt.Println("No cookie found!")
-	// 	// For any other type of error, return a bad request status
-	// 	// w.WriteHeader(http.StatusBadRequest)
-	// 	// return
-	// } else {
-	// 	fmt.Println(c.Domain)
-	// }
 }
