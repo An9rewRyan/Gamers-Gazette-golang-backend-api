@@ -28,6 +28,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("err")
 		return
 	}
+	defer db.Close()
 	var creds structs.Credentials
 	storedCreds := &structs.Credentials{}
 	// Get the JSON body and decode into credentials

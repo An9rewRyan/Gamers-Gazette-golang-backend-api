@@ -31,9 +31,11 @@ func Query_db(comm string) (pgx.Row, error) {
 		fmt.Println("failed to connect database")
 		return row, err
 	} else {
+		defer Db.Close()
 		row := Db.QueryRow(context.Background(), comm)
 		return row, err
 	}
+
 }
 
 func Create_basic_tables() {
@@ -55,6 +57,7 @@ func Write_article_to_db(article structs.Article_create) string {
 		fmt.Println("failed to connect database")
 		return "fail"
 	} else {
+		defer Db.Close()
 		insert_string_to_artcls := `insert into articles(title, content, pub_date, image_url, src_link, site_alias)
 					  			values(` + `'` + article.Title + `','` + article.Content + `','` + article.Pub_date + `','` + article.Image_url + `','` + article.Src_link + `','` + article.Site_alias + `')`
 		insert_string_to_recent := `insert into recently_loaded_articles(pub_date, src_link, site_alias)
@@ -86,6 +89,7 @@ func Select_all_articles() []structs.Article_select {
 	if err != nil {
 		fmt.Println("failed to connect database")
 	}
+	defer Db.Close()
 	var articles []structs.Article_select
 	// err = pgxscan.Select(context.Background(), Db, &articles, Select_all_articles_command)
 	rows, err := Db.Query(context.Background(), Select_all_articles_command)
@@ -108,11 +112,11 @@ func Select_all_articles() []structs.Article_select {
 func Select_article(id string) (structs.Article_select, error) {
 	var a structs.Article_select
 	Db, err := Connect_db()
-
 	if err != nil {
 		fmt.Println(err)
 		return a, errors.New_db_connection_error("Failed to connect to db")
 	}
+	defer Db.Close()
 
 	row := Db.QueryRow(context.Background(), Select_article_command, id)
 	err = row.Scan(&a.Id, &a.Title, &a.Content, &a.Pub_date, &a.Image_url, &a.Src_link, &a.Site_alias)
@@ -132,6 +136,7 @@ func Delete_article(id string) (structs.Article_select, error) {
 		fmt.Println(err)
 		return a, errors.New_db_connection_error("Failed to connect to db")
 	}
+	defer Db.Close()
 
 	row := Db.QueryRow(context.Background(), Delete_article_command, id)
 	err = row.Scan(&a.Id, &a.Title, &a.Content, &a.Pub_date, &a.Image_url, &a.Src_link, &a.Site_alias)
@@ -165,6 +170,7 @@ func Update_article(id string, article structs.Article_create) error {
 		fmt.Println(err)
 		return errors.New_db_connection_error("Failed to connect to db")
 	}
+	defer Db.Close()
 	command := Update_article_command
 	if article.Title != "" {
 		command += fmt.Sprintf("title = '%s', ", article.Title)
