@@ -80,8 +80,9 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 			log.Fatal(err)
 		}
-		fmt.Println(string(bodyBytes), "Ola!")
+		fmt.Println(string(bodyBytes), "Ola, sent response!")
+		w.Write(bodyBytes)
 		fmt.Fprint(w, string(bodyBytes))
-		fmt.Println("Sucessfully signed up!")
+		// fmt.Println("Sucessfully signed up!")
 	}
 }
