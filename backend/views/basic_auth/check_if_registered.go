@@ -36,8 +36,8 @@ func Check_if_registered(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	result := db.QueryRow(context.Background(), "select role from users where username=$1, email=$2", creds.Username, creds.Email)
-	err = result.Scan(&storedCreds.Email, &storedCreds.Role)
+	result := db.QueryRow(context.Background(), "select role from users where username=$1, email=$2;", creds.Username, creds.Email)
+	err = result.Scan(&storedCreds.Role)
 	if err == nil { //already registered
 		w.WriteHeader(http.StatusConflict)
 		return
