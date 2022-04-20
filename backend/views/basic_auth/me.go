@@ -22,7 +22,7 @@ func Me(w http.ResponseWriter, r *http.Request) {
 	var cookie Cookie
 	err = json.Unmarshal(bodyBytes, &cookie)
 	if err != nil {
-		fmt.Println("Decode error!")
+		fmt.Println("Decode error!", err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
