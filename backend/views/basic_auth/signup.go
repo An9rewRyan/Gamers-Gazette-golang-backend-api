@@ -13,6 +13,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/jackc/pgx/v4"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -22,6 +23,7 @@ var tr = &http.Transport{
 var client = &http.Client{Transport: tr}
 
 func Signup(w http.ResponseWriter, r *http.Request) {
+
 	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
 		log.Fatal(err)
@@ -33,12 +35,24 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Println(creds)
+
+	account_state := Check_if_registered(creds)
+	switch account_state {
+	case "Already registered":
+		w.WriteHeader(http.StatusConflict)
+		return
+	case "Unknown error", "Error on db connection":
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	//in case of "Not registered" we just doing the job
+
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+
 	db, err := database.Connect_db()
 	if err != nil {
 		fmt.Println(err)
@@ -69,5 +83,29 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(string(bodyBytes), "Ola!")
 		fmt.Fprint(w, string(bodyBytes))
 		fmt.Println("Sucessfully signed up!")
+	}
+}
+
+func Check_if_registered(creds structs.Credentials) string {
+	storedCreds := &structs.Credentials{}
+
+	db, err := database.Connect_db()
+	if err != nil {
+		fmt.Println(err)
+		return "Error on db connection"
+	}
+	defer db.Close()
+
+	result := db.QueryRow(context.Background(), "select role from users where username=$1 and email=$2;", creds.Username, creds.Email)
+	err = result.Scan(&storedCreds.Role)
+	if err == nil {
+		return "Already registered"
+	}
+	if err == pgx.ErrNoRows {
+		fmt.Println(err)
+		return "Not registered"
+	} else {
+		fmt.Println(err)
+		return "Unknown error"
 	}
 }
