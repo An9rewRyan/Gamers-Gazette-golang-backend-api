@@ -28,8 +28,4 @@ func Route_auth_basic(mux *mux.Router) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		basic_auth.Me(w, r)
 	})
-	mux.HandleFunc("/checkifregistered", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		basic_auth.Check_if_registered(w, r)
-	})
 }
