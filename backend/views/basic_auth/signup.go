@@ -13,6 +13,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/jackc/pgx/v4"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -22,9 +23,12 @@ var tr = &http.Transport{
 var client = &http.Client{Transport: tr}
 
 func Signup(w http.ResponseWriter, r *http.Request) {
+	storedCreds := &structs.Credentials{}
 	bodyBytes, err := io.ReadAll(r.Body)
 	if err != nil {
+		fmt.Println(err)
 		log.Fatal(err)
+		return
 	}
 	creds := structs.Credentials{}
 	err = json.Unmarshal(bodyBytes, &creds)
@@ -33,13 +37,23 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	fmt.Println(creds)
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
+	db, err := database.Connect_db()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("err")
 		return
 	}
-	db, err := database.Connect_db()
+	defer db.Close()
+	result := db.QueryRow(context.Background(), "select email, role from users where username=$1", creds.Username)
+	err = result.Scan(&storedCreds.Email, &storedCreds.Role)
+	if err == nil { //it means that user already exists and we need to tell frontend about it
+		w.WriteHeader(http.StatusConflict)
+		return
+	}
+	if err != pgx.ErrNoRows {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	} //we continue only if user this this nickname does not exist
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(creds.Password), 8)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -68,6 +82,6 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println(string(bodyBytes), "Ola!")
 		fmt.Fprint(w, string(bodyBytes))
-		fmt.Println("Sucessfully signed up!!!")
+		fmt.Println("Sucessfully signed up!")
 	}
 }
