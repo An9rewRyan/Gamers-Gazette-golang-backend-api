@@ -43,9 +43,11 @@ func Check_if_registered(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err != pgx.ErrNoRows {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusInternalServerError) //iternal error
 		return
 	} else {
+		fmt.Println(err)
 		w.WriteHeader(http.StatusOK) //not registered
 		return
 	}
