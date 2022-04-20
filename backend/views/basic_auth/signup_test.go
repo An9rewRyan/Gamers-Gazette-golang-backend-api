@@ -72,7 +72,7 @@ func Signup_test(w http.ResponseWriter, r *http.Request) {
 		bodyBytes, err := io.ReadAll(resp.Body)
 		if err != nil {
 			fmt.Println(err)
-			log.Fatal(err)
+			return
 		}
 		fmt.Println(string(bodyBytes), "Ola, sent response!")
 		fmt.Fprint(w, string(bodyBytes))
