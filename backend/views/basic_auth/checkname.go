@@ -41,11 +41,10 @@ func Checkname(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			fmt.Println("User not exist!")
-			w.WriteHeader(http.StatusOK)
+			w.WriteHeader(http.StatusNotFound)
 			return
 		}
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	w.WriteHeader(http.StatusConflict)
 }
