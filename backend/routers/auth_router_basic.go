@@ -8,6 +8,10 @@ import (
 )
 
 func Route_auth_basic(mux *mux.Router) {
+	mux.HandleFunc("/checkname", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		basic_auth.Checkname(w, r)
+	})
 	mux.HandleFunc("/signin", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		basic_auth.Signin(w, r)
