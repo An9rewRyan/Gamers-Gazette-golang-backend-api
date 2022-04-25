@@ -40,7 +40,7 @@ func Signin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get the expected password from database
-	result := db.QueryRow(context.Background(), "select password, role from users where username=$1", creds.Username)
+	result := db.QueryRow(context.Background(), "select password, role from accounts where username=$1", creds.Username)
 	err = result.Scan(&storedCreds.Password, &storedCreds.Role)
 	if err != nil {
 		// If an entry with the username does not exist, send an "Unauthorized"(401) status

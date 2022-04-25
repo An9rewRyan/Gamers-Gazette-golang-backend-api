@@ -36,7 +36,7 @@ func Checkname(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	result := db.QueryRow(context.Background(), "select role from users where username=$1", username.Name)
+	result := db.QueryRow(context.Background(), "select role from accounts where username=$1", username.Name)
 	err = result.Scan(&storedCreds.Role)
 	if err != nil {
 		if err == pgx.ErrNoRows {

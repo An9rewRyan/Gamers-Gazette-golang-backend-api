@@ -58,7 +58,7 @@ func Signup(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	if _, err = db.Query(context.Background(), "insert into users values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
+	if _, err = db.Query(context.Background(), "insert into accounts values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println("Failed to add user, ")
 		fmt.Println(err)
@@ -96,7 +96,7 @@ func Check_if_registered(creds structs.Credentials) string {
 	}
 	defer db.Close()
 
-	result := db.QueryRow(context.Background(), "select role from users where username=$1 and email=$2;", creds.Username, creds.Email)
+	result := db.QueryRow(context.Background(), "select role from accounts where username=$1 and email=$2;", creds.Username, creds.Email)
 	err = result.Scan(&storedCreds.Role)
 	if err == nil {
 		return "Already registered"

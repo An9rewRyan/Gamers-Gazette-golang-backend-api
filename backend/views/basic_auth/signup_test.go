@@ -37,7 +37,7 @@ func Signup_test(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer db.Close()
-	result := db.QueryRow(context.Background(), "select email, role from users where username=$1", creds.Username)
+	result := db.QueryRow(context.Background(), "select email, role from accounts where username=$1", creds.Username)
 	err = result.Scan(&storedCreds.Email, &storedCreds.Role)
 	if err == nil { //it means that user already exists and we need to tell frontend about it
 		w.WriteHeader(http.StatusConflict)
@@ -52,7 +52,7 @@ func Signup_test(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 		return
 	}
-	if _, err = db.Query(context.Background(), "insert into users values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
+	if _, err = db.Query(context.Background(), "insert into accounts values ($1, $2, 'user', $3, $4)", creds.Username, string(hashedPassword), creds.Email, creds.Bdate); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Println("Failed to add user, ")
 		fmt.Println(err)
